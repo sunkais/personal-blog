@@ -2,48 +2,314 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getCollection } from 'astro:content';
+import { NEXUS_URL, SITE_DESCRIPTION, SITE_NAME_EN, SITE_NAME_CN, SITE_TITLE } from '../consts';
+
+const notes = (await getCollection('blog'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
+
+const corners = [
+	{
+		id: 'math',
+		title: '数学一隅',
+		description: '偏微分方程、奇异项、Galerkin 方法、变分法与 Sobolev 空间。',
+		href: '/blog',
+	},
+	{
+		id: 'thesis',
+		title: '论文书桌',
+		description: '硕士论文、文献整理、证明细节和写作过程。',
+		href: '/blog/my-thesis-research/',
+	},
+	{
+		id: 'tools',
+		title: '工具手札',
+		description: 'Codex、Claude Code、GitHub Copilot、LaTeX 自动化与 AI 工作流。',
+		href: '/blog/codex-literature-workflow/',
+	},
+	{
+		id: 'projects',
+		title: '项目小径',
+		description: 'sunkais.com、Nexus 像素舱和慢慢生长的小项目。',
+		href: NEXUS_URL,
+		external: true,
+	},
+	{
+		id: 'life',
+		title: '生活碎片',
+		description: '游戏、毕业、审美、计划，以及重建生活的记录。',
+		href: '/about',
+	},
+];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+		<main class="home-main">
+			<section class="hero">
+				<div class="hero-copy">
+					<p class="eyebrow">{SITE_NAME_EN}</p>
+					<h1>{SITE_NAME_CN}</h1>
+					<p class="hero-lead">{SITE_DESCRIPTION}</p>
+					<p class="hero-note">
+						这里记录偏微分方程、硕士论文、AI 工具、个人项目，以及慢慢生长的生活。它不需要像教授主页那样严肃，也不需要像赛博站那样用力；更像一本安静翻开的笔记。
+					</p>
+					<div class="button-row">
+						<a class="button primary" href="/blog">进入笔记</a>
+						<a class="button" href="#thesis">论文书桌</a>
+						<a class="button" href={NEXUS_URL} target="_blank" rel="noreferrer">访问 Nexus ↗</a>
+					</div>
+				</div>
+
+				<aside class="desk-card paper-card" aria-label="今日书桌">
+					<p class="desk-kicker">今日书桌</p>
+					<p class="desk-formula">−Δu = |x|<sup>−s</sup>|u|<sup>p−2</sup>u</p>
+					<p>
+						把 Galerkin 方法、变分法和 Sobolev 空间这些抽象工具，慢慢整理成自己能讲清楚的笔记。
+					</p>
+					<p>
+						Nexus 像素舱、论文工具链、AI 辅助写作，都是这间数字书房向外延伸的小径。
+					</p>
+				</aside>
+			</section>
+
+			<section class="corners" aria-labelledby="corners-title">
+				<div class="section-heading">
+					<p class="eyebrow">Quiet Corners</p>
+					<h2 id="corners-title">几个安静的角落</h2>
+				</div>
+				<div class="corner-grid">
+					{
+						corners.map((corner) => (
+							<a
+								id={corner.id}
+								class="corner-card paper-card"
+								href={corner.href}
+								target={corner.external ? '_blank' : undefined}
+								rel={corner.external ? 'noreferrer' : undefined}
+							>
+								<span>{corner.title}</span>
+								<p>{corner.description}</p>
+							</a>
+						))
+					}
+				</div>
+			</section>
+
+			<section class="recent-notes" aria-labelledby="notes-title">
+				<div class="section-heading">
+					<p class="eyebrow">Notes</p>
+					<h2 id="notes-title">最近整理</h2>
+				</div>
+				<div class="note-strip">
+					{
+						notes.map((note) => (
+							<a class="note-link" href={`/blog/${note.id}/`}>
+								<span>{note.data.title}</span>
+								<small>{note.data.description}</small>
+							</a>
+						))
+					}
+				</div>
+			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
+<style>
+	.home-main {
+		padding-top: 4rem;
+	}
+
+	.hero {
+		display: grid;
+		grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.72fr);
+		align-items: center;
+		gap: 3rem;
+		min-height: 70vh;
+		padding: 2rem 0 5rem;
+	}
+
+	.hero-copy {
+		min-width: 0;
+	}
+
+	.hero h1 {
+		margin-bottom: 0.45rem;
+		font-family: Georgia, "Times New Roman", serif;
+		font-weight: 700;
+	}
+
+	.hero-lead {
+		max-width: 37rem;
+		color: var(--leaf-dark);
+		font-size: 1.28rem;
+		font-weight: 700;
+		line-height: 1.6;
+		overflow-wrap: anywhere;
+	}
+
+	.hero-note {
+		max-width: 42rem;
+		color: var(--muted);
+		overflow-wrap: anywhere;
+	}
+
+	.desk-card {
+		position: relative;
+		min-width: 0;
+		padding: 1.55rem;
+		overflow: hidden;
+	}
+
+	.desk-card::before {
+		position: absolute;
+		top: 1.1rem;
+		right: 1.2rem;
+		color: var(--leaf);
+		content: "∫Ω";
+		font-family: Georgia, "Times New Roman", serif;
+		font-size: 3.8rem;
+		opacity: 0.11;
+	}
+
+	.desk-kicker {
+		margin-bottom: 1.25rem;
+		color: var(--leaf-dark);
+		font-weight: 700;
+	}
+
+	.desk-formula {
+		margin: 0 0 1.25rem;
+		padding-bottom: 1rem;
+		max-width: 100%;
+		overflow-x: auto;
+		border-bottom: 1px solid var(--line);
+		font-family: Georgia, "Times New Roman", serif;
+		font-size: 1.35rem;
+		line-height: 1.4;
+		white-space: nowrap;
+	}
+
+	.corners,
+	.recent-notes {
+		padding: 4rem 0 0;
+	}
+
+	.section-heading {
+		max-width: 38rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.section-heading h2 {
+		margin-bottom: 0.35rem;
+	}
+
+	.corner-grid {
+		display: grid;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.corner-card {
+		min-height: 13rem;
+		padding: 1.1rem;
+		color: var(--ink);
+		text-decoration: none;
+		transition:
+			transform 160ms ease,
+			border-color 160ms ease,
+			box-shadow 160ms ease;
+	}
+
+	.corner-card:hover {
+		border-color: var(--leaf);
+		box-shadow: var(--shadow);
+		color: var(--ink);
+		transform: translateY(-3px);
+	}
+
+	.corner-card span {
+		display: block;
+		margin-bottom: 0.7rem;
+		color: var(--leaf-dark);
+		font-size: 1.1rem;
+		font-weight: 700;
+	}
+
+	.corner-card p {
+		margin: 0;
+		color: var(--muted);
+		font-size: 0.96rem;
+		line-height: 1.65;
+	}
+
+	.note-strip {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.note-link {
+		display: grid;
+		gap: 0.45rem;
+		padding: 1rem 0;
+		border-top: 1px solid var(--line);
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	.note-link span {
+		font-weight: 700;
+	}
+
+	.note-link small {
+		color: var(--muted);
+		font-size: 0.92rem;
+		line-height: 1.55;
+	}
+
+	.note-link:hover span {
+		color: var(--leaf-dark);
+	}
+
+	@media (max-width: 980px) {
+		.hero {
+			grid-template-columns: 1fr;
+			min-height: auto;
+		}
+
+		.corner-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.note-strip {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 620px) {
+		.home-main {
+			padding-top: 2rem;
+		}
+
+		.hero {
+			gap: 2rem;
+			padding-bottom: 3rem;
+		}
+
+		.hero-lead {
+			font-size: 1.12rem;
+		}
+
+		.corner-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

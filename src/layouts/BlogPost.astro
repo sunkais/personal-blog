@@ -11,46 +11,73 @@ type Props = CollectionEntry<'blog'>['data'];
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<BaseHead title={title} description={description} />
 		<style>
 			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
+				width: min(840px, calc(100% - 2rem));
+				padding-top: 3rem;
 			}
 			.hero-image {
 				width: 100%;
+				margin-bottom: 2rem;
 			}
 			.hero-image img {
 				display: block;
 				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
+				border-radius: 8px;
+				box-shadow: var(--soft-shadow);
 			}
 			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
+				color: var(--ink);
 			}
 			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
+				margin-bottom: 2rem;
+				padding-bottom: 1.4rem;
+				border-bottom: 1px solid var(--line);
 			}
 			.title h1 {
-				margin: 0 0 0.5em 0;
+				margin: 0;
+				font-family: Georgia, "Times New Roman", serif;
+				font-size: 3.2rem;
 			}
 			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
+				margin-bottom: 0.7rem;
+				color: var(--soft-muted);
+				font-size: 0.95rem;
 			}
 			.last-updated-on {
-				font-style: italic;
+				margin-top: 0.25rem;
+			}
+			.prose :global(p),
+			.prose :global(ul),
+			.prose :global(ol) {
+				color: var(--muted);
+			}
+			.prose :global(h2),
+			.prose :global(h3) {
+				margin-top: 2rem;
+			}
+			.prose :global(a) {
+				text-decoration-thickness: 1px;
+				text-underline-offset: 0.18em;
+			}
+			.prose :global(.katex-display) {
+				margin: 1.2rem 0;
+				padding: 1rem;
+				border: 1px solid var(--line-soft);
+				border-radius: 8px;
+				background: rgba(255, 253, 247, 0.7);
+			}
+			@media (max-width: 720px) {
+				main {
+					width: min(100% - 1.25rem, 840px);
+					padding-top: 2rem;
+				}
+				.title h1 {
+					font-size: 2.45rem;
+				}
 			}
 		</style>
 	</head>
@@ -69,13 +96,12 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 							{
 								updatedDate && (
 									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
+										最后更新于 <FormattedDate date={updatedDate} />
 									</div>
 								)
 							}
 						</div>
 						<h1>{title}</h1>
-						<hr />
 					</div>
 					<slot />
 				</div>
