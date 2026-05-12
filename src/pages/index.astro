@@ -71,10 +71,7 @@ const corners = [
 					<div class="desk-photo-wrapper">
 						<div class="desk-photo">
 							<div class="photo-frame" aria-label="书桌上的一张个人相片">
-								<div class="photo-inner">
-									<span class="photo-initial">松</span>
-									<small class="photo-hint">photo</small>
-								</div>
+								<img class="photo-img" src="/avatar.png" alt="孙开松" loading="eager" />
 							</div>
 							<div class="photo-label">书桌一角</div>
 							<div class="tape tape-top"></div>
@@ -201,36 +198,13 @@ const corners = [
 			0 8px 24px rgba(76, 65, 45, 0.06);
 	}
 
-	.photo-inner {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 0.3rem;
+	.photo-img {
+		display: block;
 		width: 100%;
+		height: auto;
 		aspect-ratio: 3 / 4;
-		background: linear-gradient(145deg, #f0ead8 0%, #ebe3cc 30%, #f3eee2 60%, #e8dfc8 100%);
+		object-fit: cover;
 		border-radius: 1px;
-		overflow: hidden;
-	}
-
-	.photo-initial {
-		color: var(--leaf-dark);
-		font-family: Georgia, "Times New Roman", serif;
-		font-size: 2.6rem;
-		opacity: 0.45;
-		user-select: none;
-		line-height: 1;
-	}
-
-	.photo-hint {
-		color: var(--soft-muted);
-		font-size: 0.62rem;
-		font-weight: 400;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-		opacity: 0.35;
-		user-select: none;
 	}
 
 	.photo-label {
