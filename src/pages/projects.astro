@@ -8,7 +8,7 @@ import Header from '../components/Header.astro';
 <!doctype html>
 <html lang="zh-CN">
 	<head>
-		<BaseHead title="项目小径 | 松间笔记" description="sunkais.com、Nexus 像素舱和慢慢生长的小项目。" />
+		<BaseHead title="项目小径 | 松间笔记" description="sunkais.com、Nexus 像素舱、论文工具链和慢慢生长的小项目。" />
 	</head>
 	<body>
 		<Header />
@@ -44,7 +44,7 @@ import Header from '../components/Header.astro';
 						我的个人主站，从模板博客逐步整理成"松间笔记"——一间融合了数学、物理、AI 工具和个人记录的数字书房。
 					</p>
 					<p>
-						这个网站本身就是一个持续生长的项目：从第一轮的初始化框架，到第二轮的内容填充和结构完善，后面还会有更多的笔记和细节被添进来。
+						这个网站本身就是一个持续生长的项目：从初始化框架到内容填充和结构完善，后面还会有更多的笔记和细节被添进来。
 					</p>
 				</article>
 
@@ -53,10 +53,33 @@ import Header from '../components/Header.astro';
 						<h2>论文工具链</h2>
 					</div>
 					<p>
-						围绕 PDF 文献处理、BibTeX 管理、LaTeX 编译、Codex 辅助和审校报告形成的写作工作流。它不是一个大统一的工具，而是一组松散但实用的脚本和流程。
+						围绕 PDF 文献处理、BibTeX 管理、LaTeX 编译、Codex 辅助和审校报告形成的写作工作流。包含 PDF 元数据抽取、BibTeX 自动生成、公式环境检查、引用格式审计和盲审意见逐条追踪。
+					</p>
+				</article>
+
+				<article class="project-card paper-card">
+					<div class="project-head">
+						<h2>硕士论文 TeX 工程</h2>
+						<span class="project-label">进行中</span>
+					</div>
+					<p>
+						论文 LaTeX 工程已形成完整的工具链和文档体系：自定义文档类（heuthesisbook）、文献管理（BibTeX + Codex 辅助）、多组参数算例、径向半离散数值实验（Python + Matplotlib）。
 					</p>
 					<p>
-						包含：PDF 元数据抽取、BibTeX 自动生成、公式环境检查、引用格式审计和盲审意见逐条追踪。
+						数值部分包括：Mountain Pass 能量路径的可视化计算（沿显式径向测试函数逐点计算能量值）、不同初值幅值与权组合下的局部演化短时行为对比、以及稳态方程的有限差分 Newton 数值检验。
+					</p>
+				</article>
+
+				<article class="project-card paper-card">
+					<div class="project-head">
+						<h2>仿真与数值实验</h2>
+						<span class="project-label">实验</span>
+					</div>
+					<p>
+						论文的数值实验设计包含五组可复现对照实验：无权 vs 双奇异权对照、仅演化项奇异 vs 仅源项奇异对照、不同初值幅值的影响、不同正则化参数的影响、以及不同源项奇异强度 \( s_2 \) 对能量路径和短时演化的影响。
+					</p>
+					<p>
+						数值实验的定位是辅助验证而非替代证明：它们说明理论条件确实可以被具体参数满足，并给出与理论预测一致的数值行为——但不替代数学证明的严格性。
 					</p>
 				</article>
 
@@ -66,7 +89,7 @@ import Header from '../components/Header.astro';
 						<span class="project-label">计划中</span>
 					</div>
 					<p>
-						面向学习、写作、图像处理和自动化的小型实验。目前的方向包括：公式 OCR 辅助录入、论文笔记模板自动化、以及一些轻量的可视化工具。
+						面向学习、写作、图像处理和自动化的小型实验。目前方向包括：公式 OCR 辅助录入、论文笔记模板自动化、以及轻量的 PDE 可视化工具。
 					</p>
 					<p>
 						这些工具不会追求"发布级别"的完整度，更接近个人使用的小脚本和小界面，按需生长。
