@@ -1,0 +1,161 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title="AI 手札 | 松间笔记" description="记录 AI 工具、论文写作、LaTeX、GitHub 和网站开发中的真实工作流。" />
+	</head>
+	<body>
+		<Header />
+		<main class="page-main">
+			<section class="page-hero paper-card">
+				<p class="eyebrow">AI Notes</p>
+				<h1>AI 手札</h1>
+				<p class="page-lead">
+					记录 AI 工具、论文写作、LaTeX、GitHub 和网站开发中的真实工作流。AI 在这里不是替代思考的黑箱，而是书桌上的辅助工具：照亮材料、整理信息、检查细节。
+				</p>
+			</section>
+
+			<section class="topic-grid">
+				<article class="topic-card paper-card">
+					<h2>Codex 与文献整理</h2>
+					<p>
+						PDF 预处理、元数据抽取、BibTeX 生成、needs_review 标记和审查报告。Codex 在文献整理中的角色是辅助性的：识别题录、提取关键词、统一引用格式、标记需要人工核对的条目。
+					</p>
+					<p>
+						真正的判断——这篇论文是否相关、结论是否可靠、方法是否可迁移——仍然需要自己逐篇阅读和评估。
+					</p>
+				</article>
+
+				<article class="topic-card paper-card">
+					<h2>Claude Code 与网站修改</h2>
+					<p>
+						用于阅读目录结构、修改页面、整理样式、生成报告和保持构建稳定。Claude Code 像一位可以对话的编辑：它理解项目结构，能在保持视觉一致性的前提下做局部调整。
+					</p>
+					<p>
+						实际使用中，它适合承担重复性工作——比如同步多个页面的导航链接、检查和修复构建错误、统一样式变量——而不是代替设计判断。
+					</p>
+				</article>
+
+				<article class="topic-card paper-card">
+					<h2>GitHub Copilot 与代码补全</h2>
+					<p>
+						用于小段代码、配置文件、样式调整和日常开发辅助。Copilot 的优势在于速度：当你知道要写什么、只是需要一个快速表达时，它能大幅减少敲键盘的时间。
+					</p>
+					<p>
+						但对于涉及复杂逻辑、安全考量或需要精确语义判断的代码，Copilot 的建议只能作为参考，不能直接信任。
+					</p>
+				</article>
+
+				<article class="topic-card paper-card">
+					<h2>LaTeX 自动化</h2>
+					<p>
+						TeX 编译、引用审计、公式排版、盲审意见处理和答辩材料整理。LaTeX 写作中最耗时的往往不是写公式本身，而是管理引用、统一符号、检查环境和处理编译错误。
+					</p>
+					<p>
+						AI 工具在这里可以承担诸如检查公式环境是否闭合、批量更新引用格式、将草稿转为更稳定的论文语气等任务。但定理的正确性、引用的准确性、论证的完整性，必须由作者负责。
+					</p>
+				</article>
+
+				<article class="topic-card paper-card">
+					<h2>AI 辅助写作的边界</h2>
+					<p>
+						AI 可以帮助整理、检查、解释和生成草稿，但数学证明、引用准确性和最终判断必须由人负责。这不是保守，而是对学术写作基本性质的尊重。
+					</p>
+					<p>
+						比较理想的状态是：AI 像书桌上的台灯，照亮材料和结构，但不替人阅读，更不替人判断。工具越强，越需要清楚地画一条线——线内是辅助，线外是思考。
+					</p>
+				</article>
+			</section>
+
+			<section class="back-note">
+				<p>更多具体工作流见 <a href="/blog">笔记集合</a> 中的相关文章。</p>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+<style>
+	.page-main {
+		padding-top: 4rem;
+	}
+
+	.page-hero {
+		padding: 2rem;
+		margin-bottom: 2.5rem;
+	}
+
+	.page-hero h1 {
+		font-family: Georgia, "Times New Roman", serif;
+		font-size: 3.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.page-lead {
+		max-width: 42rem;
+		color: var(--muted);
+		font-size: 1.08rem;
+		line-height: 1.7;
+		margin-bottom: 0;
+	}
+
+	.topic-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.25rem;
+	}
+
+	.topic-card {
+		padding: 1.5rem;
+	}
+
+	.topic-card h2 {
+		font-size: 1.25rem;
+		margin-bottom: 0.8rem;
+		color: var(--leaf-dark);
+	}
+
+	.topic-card p {
+		margin-bottom: 0.6rem;
+		color: var(--muted);
+		font-size: 0.96rem;
+		line-height: 1.7;
+	}
+
+	.topic-card p:last-child {
+		margin-bottom: 0;
+	}
+
+	.back-note {
+		padding-top: 3rem;
+		text-align: center;
+		color: var(--soft-muted);
+		font-size: 0.94rem;
+	}
+
+	.back-note a {
+		color: var(--leaf-dark);
+	}
+
+	@media (max-width: 760px) {
+		.page-main {
+			padding-top: 2rem;
+		}
+
+		.page-hero {
+			padding: 1.25rem;
+		}
+
+		.page-hero h1 {
+			font-size: 2.6rem;
+		}
+
+		.topic-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

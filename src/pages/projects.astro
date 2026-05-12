@@ -1,0 +1,178 @@
+---
+import { NEXUS_URL } from '../consts';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title="项目小径 | 松间笔记" description="sunkais.com、Nexus 像素舱和慢慢生长的小项目。" />
+	</head>
+	<body>
+		<Header />
+		<main class="page-main">
+			<section class="page-hero paper-card">
+				<p class="eyebrow">Projects</p>
+				<h1>项目小径</h1>
+				<p class="page-lead">
+					记录几个正在生长的小项目，而不是冷冰冰的作品集。每个项目都像数字书房向外延伸的一条小径，有的已经可以走一走，有的还在慢慢铺路。
+				</p>
+			</section>
+
+			<section class="project-grid">
+				<article class="project-card paper-card">
+					<div class="project-head">
+						<h2>Nexus 像素舱</h2>
+						<a class="project-link" href={NEXUS_URL} target="_blank" rel="noreferrer">访问 ↗</a>
+					</div>
+					<p>
+						一个用于展示同学作品、小游戏、应用和学习笔记的小型平台。Nexus 的定位是"具体项目和作品展示"，与 sunkais.com 的个人数字书房形成互补。
+					</p>
+					<p>
+						当前正在整理页面布局、作品展示方式和导航结构，目标是让它像一个可以慢慢填充的展示台。
+					</p>
+				</article>
+
+				<article class="project-card paper-card">
+					<div class="project-head">
+						<h2>sunkais.com</h2>
+						<span class="project-label">当前项目</span>
+					</div>
+					<p>
+						我的个人主站，从模板博客逐步整理成"松间笔记"——一间融合了数学、物理、AI 工具和个人记录的数字书房。
+					</p>
+					<p>
+						这个网站本身就是一个持续生长的项目：从第一轮的初始化框架，到第二轮的内容填充和结构完善，后面还会有更多的笔记和细节被添进来。
+					</p>
+				</article>
+
+				<article class="project-card paper-card">
+					<div class="project-head">
+						<h2>论文工具链</h2>
+					</div>
+					<p>
+						围绕 PDF 文献处理、BibTeX 管理、LaTeX 编译、Codex 辅助和审校报告形成的写作工作流。它不是一个大统一的工具，而是一组松散但实用的脚本和流程。
+					</p>
+					<p>
+						包含：PDF 元数据抽取、BibTeX 自动生成、公式环境检查、引用格式审计和盲审意见逐条追踪。
+					</p>
+				</article>
+
+				<article class="project-card paper-card">
+					<div class="project-head">
+						<h2>未来小工具</h2>
+						<span class="project-label">计划中</span>
+					</div>
+					<p>
+						面向学习、写作、图像处理和自动化的小型实验。目前的方向包括：公式 OCR 辅助录入、论文笔记模板自动化、以及一些轻量的可视化工具。
+					</p>
+					<p>
+						这些工具不会追求"发布级别"的完整度，更接近个人使用的小脚本和小界面，按需生长。
+					</p>
+				</article>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+<style>
+	.page-main {
+		padding-top: 4rem;
+	}
+
+	.page-hero {
+		padding: 2rem;
+		margin-bottom: 2.5rem;
+	}
+
+	.page-hero h1 {
+		font-family: Georgia, "Times New Roman", serif;
+		font-size: 3.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.page-lead {
+		max-width: 42rem;
+		color: var(--muted);
+		font-size: 1.08rem;
+		line-height: 1.7;
+		margin-bottom: 0;
+	}
+
+	.project-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.25rem;
+	}
+
+	.project-card {
+		padding: 1.5rem;
+	}
+
+	.project-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.75rem;
+		margin-bottom: 0.8rem;
+	}
+
+	.project-head h2 {
+		font-size: 1.2rem;
+		margin: 0;
+		color: var(--leaf-dark);
+	}
+
+	.project-link {
+		flex-shrink: 0;
+		font-size: 0.88rem;
+		font-weight: 700;
+		color: var(--leaf-dark);
+		text-decoration: none;
+	}
+
+	.project-link:hover {
+		color: var(--twig);
+	}
+
+	.project-label {
+		flex-shrink: 0;
+		padding: 0.15rem 0.55rem;
+		border: 1px solid var(--line);
+		border-radius: 4px;
+		font-size: 0.76rem;
+		color: var(--soft-muted);
+		background: rgba(255, 253, 247, 0.6);
+	}
+
+	.project-card p {
+		margin-bottom: 0.5rem;
+		color: var(--muted);
+		font-size: 0.96rem;
+		line-height: 1.7;
+	}
+
+	.project-card p:last-child {
+		margin-bottom: 0;
+	}
+
+	@media (max-width: 760px) {
+		.page-main {
+			padding-top: 2rem;
+		}
+
+		.page-hero {
+			padding: 1.25rem;
+		}
+
+		.page-hero h1 {
+			font-size: 2.6rem;
+		}
+
+		.project-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

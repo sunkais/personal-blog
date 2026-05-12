@@ -2,8 +2,9 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { getCollection } from 'astro:content';
+import Formula from '../components/Formula.astro';
 import { NEXUS_URL, SITE_DESCRIPTION, SITE_NAME_EN, SITE_NAME_CN, SITE_TITLE } from '../consts';
+import { getCollection } from 'astro:content';
 
 const notes = (await getCollection('blog'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -11,32 +12,31 @@ const notes = (await getCollection('blog'))
 
 const corners = [
 	{
-		id: 'math',
 		title: '数学一隅',
 		description: '偏微分方程、奇异项、Galerkin 方法、变分法与 Sobolev 空间。',
-		href: '/blog',
+		href: '/math',
 	},
 	{
-		id: 'thesis',
+		title: '物理回声',
+		description: '从热方程、波方程到伪抛物方程，整理方程背后的物理直觉与模型来源。',
+		href: '/physics',
+	},
+	{
+		title: 'AI 手札',
+		description: 'Codex、Claude Code、GitHub Copilot、LaTeX 自动化与 AI 辅助写作工作流。',
+		href: '/ai',
+	},
+	{
 		title: '论文书桌',
-		description: '硕士论文、文献整理、证明细节和写作过程。',
-		href: '/blog/my-thesis-research/',
+		description: '硕士论文、文献整理、证明细节、盲审修改和答辩材料。',
+		href: '/thesis',
 	},
 	{
-		id: 'tools',
-		title: '工具手札',
-		description: 'Codex、Claude Code、GitHub Copilot、LaTeX 自动化与 AI 工作流。',
-		href: '/blog/codex-literature-workflow/',
-	},
-	{
-		id: 'projects',
 		title: '项目小径',
 		description: 'sunkais.com、Nexus 像素舱和慢慢生长的小项目。',
-		href: NEXUS_URL,
-		external: true,
+		href: '/projects',
 	},
 	{
-		id: 'life',
 		title: '生活碎片',
 		description: '游戏、毕业、审美、计划，以及重建生活的记录。',
 		href: '/about',
@@ -58,24 +58,36 @@ const corners = [
 					<h1>{SITE_NAME_CN}</h1>
 					<p class="hero-lead">{SITE_DESCRIPTION}</p>
 					<p class="hero-note">
-						这里记录偏微分方程、硕士论文、AI 工具、个人项目，以及慢慢生长的生活。它不需要像教授主页那样严肃，也不需要像赛博站那样用力；更像一本安静翻开的笔记。
+						这里记录数学、物理、AI 工具、硕士论文、个人项目，以及慢慢生长的生活。它不需要像教授主页那样严肃，也不需要像赛博站那样用力；更像一本安静翻开的笔记。
 					</p>
 					<div class="button-row">
 						<a class="button primary" href="/blog">进入笔记</a>
-						<a class="button" href="#thesis">论文书桌</a>
+						<a class="button" href="/thesis">论文书桌</a>
 						<a class="button" href={NEXUS_URL} target="_blank" rel="noreferrer">访问 Nexus ↗</a>
 					</div>
 				</div>
 
-				<aside class="desk-card paper-card" aria-label="今日书桌">
-					<p class="desk-kicker">今日书桌</p>
-					<p class="desk-formula">−Δu = |x|<sup>−s</sup>|u|<sup>p−2</sup>u</p>
-					<p>
-						把 Galerkin 方法、变分法和 Sobolev 空间这些抽象工具，慢慢整理成自己能讲清楚的笔记。
-					</p>
-					<p>
-						Nexus 像素舱、论文工具链、AI 辅助写作，都是这间数字书房向外延伸的小径。
-					</p>
+				<aside class="desk-area" aria-label="书桌角落">
+					<div class="desk-photo-wrapper">
+						<div class="desk-photo paper-card">
+							<div class="photo-placeholder" aria-label="个人照片占位">
+								<span class="photo-initial">松</span>
+							</div>
+							<div class="tape tape-top"></div>
+						</div>
+					</div>
+					<div class="desk-card paper-card">
+						<p class="desk-kicker">今日书桌</p>
+						<div class="desk-formula">
+							<Formula math="-\Delta u = \\frac{|u|^{p-2}u}{|x|^s}" displayMode={true} />
+						</div>
+						<p class="desk-context">
+							正在整理：硕士论文答辩材料、Galerkin 方法笔记、Nexus 页面优化。
+						</p>
+						<p class="desk-keywords">
+							当前关键词：奇异项、伪抛物方程、Codex、LaTeX、个人网站。
+						</p>
+					</div>
 				</aside>
 			</section>
 
@@ -85,20 +97,12 @@ const corners = [
 					<h2 id="corners-title">几个安静的角落</h2>
 				</div>
 				<div class="corner-grid">
-					{
-						corners.map((corner) => (
-							<a
-								id={corner.id}
-								class="corner-card paper-card"
-								href={corner.href}
-								target={corner.external ? '_blank' : undefined}
-								rel={corner.external ? 'noreferrer' : undefined}
-							>
-								<span>{corner.title}</span>
-								<p>{corner.description}</p>
-							</a>
-						))
-					}
+					{corners.map((corner) => (
+						<a class="corner-card paper-card" href={corner.href}>
+							<span>{corner.title}</span>
+							<p>{corner.description}</p>
+						</a>
+					))}
 				</div>
 			</section>
 
@@ -108,14 +112,12 @@ const corners = [
 					<h2 id="notes-title">最近整理</h2>
 				</div>
 				<div class="note-strip">
-					{
-						notes.map((note) => (
-							<a class="note-link" href={`/blog/${note.id}/`}>
-								<span>{note.data.title}</span>
-								<small>{note.data.description}</small>
-							</a>
-						))
-					}
+					{notes.map((note) => (
+						<a class="note-link" href={`/blog/${note.id}/`}>
+							<span>{note.data.title}</span>
+							<small>{note.data.description}</small>
+						</a>
+					))}
 				</div>
 			</section>
 		</main>
@@ -129,8 +131,8 @@ const corners = [
 
 	.hero {
 		display: grid;
-		grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.72fr);
-		align-items: center;
+		grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.72fr);
+		align-items: start;
 		gap: 3rem;
 		min-height: 70vh;
 		padding: 2rem 0 5rem;
@@ -161,6 +163,63 @@ const corners = [
 		overflow-wrap: anywhere;
 	}
 
+	.desk-area {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		min-width: 0;
+	}
+
+	.desk-photo-wrapper {
+		display: flex;
+		justify-content: center;
+	}
+
+	.desk-photo {
+		position: relative;
+		width: 180px;
+		padding: 0.6rem 0.6rem 0.5rem;
+		transform: rotate(2deg);
+		transition: transform 240ms ease;
+	}
+
+	.desk-photo:hover {
+		transform: rotate(0deg);
+	}
+
+	.photo-placeholder {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		aspect-ratio: 3 / 4;
+		border: 1px solid var(--line-soft);
+		border-radius: 2px;
+		background: linear-gradient(135deg, var(--paper-soft) 0%, var(--paper) 50%, var(--paper-warm) 100%);
+	}
+
+	.photo-initial {
+		color: var(--line);
+		font-family: Georgia, "Times New Roman", serif;
+		font-size: 3rem;
+		opacity: 0.5;
+		user-select: none;
+	}
+
+	.tape {
+		position: absolute;
+		height: 1.2rem;
+		background: rgba(236, 228, 214, 0.55);
+		border-radius: 1px;
+	}
+
+	.tape-top {
+		top: -0.3rem;
+		left: 50%;
+		width: 3.5rem;
+		transform: translateX(-50%) rotate(-1deg);
+	}
+
 	.desk-card {
 		position: relative;
 		min-width: 0;
@@ -177,24 +236,37 @@ const corners = [
 		font-family: Georgia, "Times New Roman", serif;
 		font-size: 3.8rem;
 		opacity: 0.11;
+		pointer-events: none;
 	}
 
 	.desk-kicker {
-		margin-bottom: 1.25rem;
+		margin-bottom: 1rem;
 		color: var(--leaf-dark);
 		font-weight: 700;
 	}
 
 	.desk-formula {
-		margin: 0 0 1.25rem;
-		padding-bottom: 1rem;
-		max-width: 100%;
-		overflow-x: auto;
+		margin: 0 0 0.9rem;
+		padding-bottom: 0.9rem;
 		border-bottom: 1px solid var(--line);
-		font-family: Georgia, "Times New Roman", serif;
-		font-size: 1.35rem;
-		line-height: 1.4;
-		white-space: nowrap;
+		overflow-x: auto;
+	}
+
+	.desk-formula :global(.katex) {
+		font-size: 1.15rem;
+	}
+
+	.desk-context {
+		margin-bottom: 0.5rem;
+		color: var(--muted);
+		font-size: 0.92rem;
+		line-height: 1.6;
+	}
+
+	.desk-keywords {
+		color: var(--soft-muted);
+		font-size: 0.84rem;
+		line-height: 1.55;
 	}
 
 	.corners,
@@ -213,13 +285,13 @@ const corners = [
 
 	.corner-grid {
 		display: grid;
-		grid-template-columns: repeat(5, minmax(0, 1fr));
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: 1rem;
 	}
 
 	.corner-card {
-		min-height: 13rem;
-		padding: 1.1rem;
+		min-height: 10rem;
+		padding: 1.2rem;
 		color: var(--ink);
 		text-decoration: none;
 		transition:
@@ -237,16 +309,16 @@ const corners = [
 
 	.corner-card span {
 		display: block;
-		margin-bottom: 0.7rem;
+		margin-bottom: 0.6rem;
 		color: var(--leaf-dark);
-		font-size: 1.1rem;
+		font-size: 1.08rem;
 		font-weight: 700;
 	}
 
 	.corner-card p {
 		margin: 0;
 		color: var(--muted);
-		font-size: 0.96rem;
+		font-size: 0.94rem;
 		line-height: 1.65;
 	}
 
@@ -285,6 +357,17 @@ const corners = [
 			min-height: auto;
 		}
 
+		.desk-area {
+			display: grid;
+			grid-template-columns: auto 1fr;
+			gap: 1.25rem;
+			align-items: start;
+		}
+
+		.desk-photo {
+			width: 140px;
+		}
+
 		.corner-grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
@@ -306,6 +389,18 @@ const corners = [
 
 		.hero-lead {
 			font-size: 1.12rem;
+		}
+
+		.desk-area {
+			grid-template-columns: 1fr;
+		}
+
+		.desk-photo-wrapper {
+			justify-content: flex-start;
+		}
+
+		.desk-photo {
+			width: 130px;
 		}
 
 		.corner-grid {

@@ -1,42 +1,63 @@
 ---
+import { NEXUS_URL } from '../consts';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION } from '../consts';
 ---
 
 <!doctype html>
 <html lang="zh-CN">
 	<head>
-		<BaseHead title="关于我 | 松间笔记" description={SITE_DESCRIPTION} />
+		<BaseHead title="关于我 | 松间笔记" description="打开这间数字书房的人是谁——孙开松，数学硕士，关注偏微分方程、伪抛物方程与 AI 辅助学术写作。" />
 	</head>
 	<body>
 		<Header />
 		<main class="about-main">
 			<section class="about-hero paper-card">
 				<p class="eyebrow">About</p>
-				<h1>关于孙开松</h1>
+				<h1>打开这间书房的人</h1>
+			</section>
+
+			<section class="about-section">
+				<h2>我是谁</h2>
 				<p>
-					孙开松，数学硕士，关注偏微分方程、带奇异项的伪抛物方程、Galerkin 方法、变分法与 Sobolev 空间。
-				</p>
-				<p>
-					这里不是一份简历，也不是一个很正式的学术主页。它更像一张慢慢铺开的书桌：论文、公式、工具、网页项目和一些生活里的小片段，会按照自己的节奏被整理到这里。
+					孙开松，数学硕士，关注偏微分方程、带奇异项的伪抛物方程、Galerkin 方法、变分法与 Sobolev 空间。目前在论文书桌和数学笔记之间来回，同时也在整理 AI 工具辅助学术写作的工作流。
 				</p>
 			</section>
 
-			<section class="about-grid" aria-label="关注的方向">
-				<div>
-					<h2>正在整理的东西</h2>
-					<p>
-						硕士论文相关的文献、证明细节和写作过程；偏微分方程里的奇异项、能量估计、Galerkin 近似和 Sobolev 空间工具；以及怎样把这些内容讲得更清楚。
-					</p>
-				</div>
-				<div>
-					<h2>也在实践的东西</h2>
-					<p>
-						AI 辅助学术写作、LaTeX 自动化、个人知识库和 Web 项目建设。Codex、Claude Code、GitHub Copilot 这些工具，会被当作书桌上的笔和纸，而不是替代思考的答案。
-					</p>
-				</div>
+			<section class="about-section">
+				<h2>我正在整理什么</h2>
+				<p>
+					硕士论文——研究对象、证明细节、文献脉络和答辩材料；数学笔记——偏微分方程、Galerkin 方法、变分法和奇异项问题的学习记录；物理模型直觉——把方程背后的物理来源和类比讲清楚，不只是推公式；AI 工具工作流——Codex、Claude Code、GitHub Copilot 和 LaTeX 自动化的实际使用方式；个人网站和 Nexus 项目——把数字书房慢慢建起来。
+				</p>
+			</section>
+
+			<section class="about-section">
+				<h2>为什么叫"松间笔记"</h2>
+				<p>
+					"松间"既来自名字里的"松"，也像一处安静的间隙：可以放下论文、代码、工具和日常。它不是一个教授主页，不是一个论文仓库，也不是一个技术博客——而是一间数字书房，什么都可以放，但什么都不需要装。
+				</p>
+			</section>
+
+			<section class="about-section">
+				<h2>这个网站会放什么</h2>
+				<p>
+					数学笔记、物理直觉、AI 手札、论文书桌、项目记录和生活碎片。不追求更新频率，也不追求"有用"。更像一本慢慢翻开的笔记本——有的页面已经写了一些字，有的还在等待。
+				</p>
+			</section>
+
+			<section class="about-section">
+				<h2>Nexus 和主站的关系</h2>
+				<p>
+					<a href="/">sunkais.com</a> 是个人主站和数字书房——放笔记、思考、记录和介绍。而 <a href={NEXUS_URL} target="_blank" rel="noreferrer">nexus.sunkais.com</a> 是具体项目和作品展示平台——放小工具、同学作品、应用和更具体的东西。两者不互相替代，而是互补：一个是书房，一个是展示台。
+				</p>
+			</section>
+
+			<section class="about-section">
+				<h2>怎么联系我</h2>
+				<p>
+					目前不设置评论区或联系表单。这间书房更像一个安静的个人空间，而不是社交平台。如果有需要讨论的学术问题或项目想法，可以通过 GitHub 找到我，或者在合适的地方偶遇。
+				</p>
 			</section>
 		</main>
 		<Footer />
@@ -44,41 +65,50 @@ import { SITE_DESCRIPTION } from '../consts';
 </html>
 <style>
 	.about-main {
-		width: min(920px, calc(100% - 2rem));
+		width: min(820px, calc(100% - 2rem));
 	}
 
 	.about-hero {
 		padding: 2rem;
+		margin-bottom: 2.5rem;
 	}
 
 	.about-hero h1 {
 		font-family: Georgia, "Times New Roman", serif;
 		font-size: 3.5rem;
+		margin: 0;
 	}
 
-	.about-hero p:not(.eyebrow) {
+	.about-section {
+		padding: 1.5rem 0;
+		border-bottom: 1px solid var(--line-soft);
+	}
+
+	.about-section:last-of-type {
+		border-bottom: none;
+	}
+
+	.about-section h2 {
+		font-size: 1.25rem;
+		margin-bottom: 0.7rem;
+		color: var(--leaf-dark);
+	}
+
+	.about-section p {
 		max-width: 42rem;
 		color: var(--muted);
+		font-size: 1rem;
+		line-height: 1.8;
+		margin: 0;
 	}
 
-	.about-grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 2rem;
-		padding-top: 3rem;
-	}
-
-	.about-grid h2 {
-		font-size: 1.35rem;
-	}
-
-	.about-grid p {
-		color: var(--muted);
+	.about-section a {
+		color: var(--leaf-dark);
 	}
 
 	@media (max-width: 720px) {
 		.about-main {
-			width: min(100% - 1.25rem, 920px);
+			width: min(100% - 1.25rem, 820px);
 		}
 
 		.about-hero {
@@ -86,12 +116,15 @@ import { SITE_DESCRIPTION } from '../consts';
 		}
 
 		.about-hero h1 {
-			font-size: 2.6rem;
+			font-size: 2.4rem;
 		}
 
-		.about-grid {
-			grid-template-columns: 1fr;
-			gap: 1rem;
+		.about-section {
+			padding: 1.25rem 0;
+		}
+
+		.about-section h2 {
+			font-size: 1.15rem;
 		}
 	}
 </style>

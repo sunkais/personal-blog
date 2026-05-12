@@ -1,0 +1,161 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title="数学一隅 | 松间笔记" description="偏微分方程、Galerkin 方法、变分法、Sobolev 空间和奇异项问题的学习笔记。" />
+	</head>
+	<body>
+		<Header />
+		<main class="page-main">
+			<section class="page-hero paper-card">
+				<p class="eyebrow">Mathematics</p>
+				<h1>数学一隅</h1>
+				<p class="page-lead">
+					这里整理偏微分方程、Galerkin 方法、变分法、Sobolev 空间和奇异项问题的学习笔记。不是为了写一本教材，而是为了把反复使用的东西，用自己能讲清楚的方式固定下来。
+				</p>
+			</section>
+
+			<section class="topic-grid">
+				<article class="topic-card paper-card">
+					<h2>偏微分方程</h2>
+					<p>
+						记录热方程、波方程、伪抛物方程等基础模型与研究对象。从经典的三类方程出发，理解抛物型、双曲型和伪抛物型各自的结构特征、适定性和能量方法。
+					</p>
+					<p>
+						偏微分方程像一组不同节奏的语言：热方程在扩散和平滑化，波方程在传播和振动，而伪抛物方程则介于两者之间，带着一种非标准的记忆结构。
+					</p>
+				</article>
+
+				<article class="topic-card paper-card">
+					<h2>Galerkin 方法</h2>
+					<p>
+						记录有限维逼近、先验估计、弱收敛、极限传递等证明路径。Galerkin 方法的核心是把无穷维问题投影到有限维空间，建立一个可以逐步回到原问题的桥梁。
+					</p>
+					<p>
+						关键步骤：选取基函数、构造近似解、建立与维数无关的先验估计、利用紧性通过极限。每一步都在保护"极限不会失控"。
+					</p>
+				</article>
+
+				<article class="topic-card paper-card">
+					<h2>变分法</h2>
+					<p>
+						记录能量泛函、山路定理、Palais&ndash;Smale 条件和稳态解问题。变分法将微分方程重新写为泛函的临界点问题，把"解是否存在"转化为"能量在某个拓扑下是否达到极值"。
+					</p>
+					<p>
+						山路定理是处理非平凡稳态解的核心工具之一。它不显式构造解，而是通过几何结构和紧性条件保证解的存在。
+					</p>
+				</article>
+
+				<article class="topic-card paper-card">
+					<h2>Sobolev 与加权不等式</h2>
+					<p>
+						记录 Sobolev 嵌入、Rellich&ndash;Kondrachov 紧嵌入、Hardy&ndash;Sobolev 不等式和权重项处理。这些不等式是把 PDE 的弱形式、能量估计和紧性论证串起来的基本骨架。
+					</p>
+					<p>
+						加权不等式（特别是 Hardy 型不等式）在奇异项问题中占有特殊位置：权重 <code>|x|{'{'}-s{'}'}</code> 的出现让常规嵌入不再直接适用，需要对指标和空间做更精细的平衡。
+					</p>
+				</article>
+
+				<article class="topic-card paper-card">
+					<h2>奇异项问题</h2>
+					<p>
+						记录 <code>|x|{'{'}-s{'}'}</code> 权重带来的积分、紧性和估计困难。奇异权重不是单纯的扰动：它改变了解的尺度行为、能量的可积性和紧嵌入的有效范围。
+					</p>
+					<p>
+						在处理带奇异项的伪抛物方程时，需要同时面对两件事：一是演化结构带来的正则性限制，二是奇异权重对函数空间的压缩效应。理解它们的相互作用是论文的核心困难之一。
+					</p>
+				</article>
+			</section>
+
+			<section class="back-note">
+				<p>这些笔记会持续更新。更具体的文章见 <a href="/blog">笔记集合</a>。</p>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+<style>
+	.page-main {
+		padding-top: 4rem;
+	}
+
+	.page-hero {
+		padding: 2rem;
+		margin-bottom: 2.5rem;
+	}
+
+	.page-hero h1 {
+		font-family: Georgia, "Times New Roman", serif;
+		font-size: 3.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.page-lead {
+		max-width: 42rem;
+		color: var(--muted);
+		font-size: 1.08rem;
+		line-height: 1.7;
+		margin-bottom: 0;
+	}
+
+	.topic-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.25rem;
+	}
+
+	.topic-card {
+		padding: 1.5rem;
+	}
+
+	.topic-card h2 {
+		font-size: 1.25rem;
+		margin-bottom: 0.8rem;
+		color: var(--leaf-dark);
+	}
+
+	.topic-card p {
+		margin-bottom: 0.6rem;
+		color: var(--muted);
+		font-size: 0.96rem;
+		line-height: 1.7;
+	}
+
+	.topic-card p:last-child {
+		margin-bottom: 0;
+	}
+
+	.back-note {
+		padding-top: 3rem;
+		text-align: center;
+		color: var(--soft-muted);
+		font-size: 0.94rem;
+	}
+
+	.back-note a {
+		color: var(--leaf-dark);
+	}
+
+	@media (max-width: 760px) {
+		.page-main {
+			padding-top: 2rem;
+		}
+
+		.page-hero {
+			padding: 1.25rem;
+		}
+
+		.page-hero h1 {
+			font-size: 2.6rem;
+		}
+
+		.topic-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

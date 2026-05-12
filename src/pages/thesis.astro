@@ -1,0 +1,165 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title="论文书桌 | 松间笔记" description="硕士论文、文献整理、证明细节、盲审修改和答辩材料。" />
+	</head>
+	<body>
+		<Header />
+		<main class="page-main">
+			<section class="page-hero paper-card">
+				<p class="eyebrow">Thesis Desk</p>
+				<h1>论文书桌</h1>
+				<p class="page-lead">
+					这里不放完整论文，而是整理研究对象、证明路线、文献脉络和写作过程。把硕士论文从"要做的事"变成"正在逐步讲清楚的事"。
+				</p>
+			</section>
+
+			<section class="topic-grid">
+				<article class="topic-card paper-card">
+					<h2>研究对象</h2>
+					<p>
+						带奇异项的伪抛物方程，核心困难来自双权重结构：演化结构中的混合导数项和空间奇异项 <code>|x|{'{'}-s{'}'}</code> 的相互作用。
+					</p>
+					<p>
+						研究分为两个部分：局部解的适定性（存在性、唯一性、正则性）和稳态解的存在性（特别是非平凡稳态解）。两个问题使用的工具不同，但共享同一个模型背景。
+					</p>
+				</article>
+
+				<article class="topic-card paper-card">
+					<h2>局部解问题</h2>
+					<p>
+						使用 Galerkin 方法构造近似解序列：先选取适当的基函数（通常取拉普拉斯算子的特征函数），将 PDE 投影为有限维 ODE 系统，再建立与维数无关的先验估计。
+					</p>
+					<p>
+						关键是让估计常数不依赖于近似维数——这样在极限过程中，弱收敛和紧性工具（Rellich&ndash;Kondrachov 定理、Aubin&ndash;Lions 引理等）才能安全地应用到序列上。
+					</p>
+				</article>
+
+				<article class="topic-card paper-card">
+					<h2>稳态解问题</h2>
+					<p>
+						稳态问题将演化方程去掉时间导数，转化为椭圆型方程。此时的核心工具是变分法：将稳态解视为某个能量泛函的临界点，用山路定理和 Palais&ndash;Smale 条件证明非平凡解的存在性。
+					</p>
+					<p>
+						奇异项的加入使得标准的 Sobolev 嵌入不再直接适用。需要借助 Hardy&ndash;Sobolev 不等式和加权空间处理 <code>|x|{'{'}-s{'}'}</code> 权重带来的积分和紧性损失。
+					</p>
+				</article>
+
+				<article class="topic-card paper-card">
+					<h2>文献整理</h2>
+					<p>
+						围绕 pseudo-parabolic equations、singular terms、Sobolev embeddings、variational methods 四条主线进行文献归档。
+					</p>
+					<p>
+						使用 Codex 辅助提取题录和关键词、生成 BibTeX、标记 needs_review 条目。但论文的核心判断——哪些文献相关、哪些结论可靠、哪些方法可迁移——仍然是人工阅读和评估的结果。
+					</p>
+				</article>
+
+				<article class="topic-card paper-card">
+					<h2>写作与答辩</h2>
+					<p>
+						TeX 编译管理、引用审计、公式符号统一、盲审意见逐条处理和答辩 PPT 准备。论文写作不只是把证明写下来，还包括管理版本、整理意见、统一格式和准备口头说明。
+					</p>
+					<p>
+						答辩材料的核心目标：用有限的时间把研究对象、困难点和证明路线讲清楚，不需要覆盖所有细节，但必须让听的人知道问题在哪、为什么难、以及你做了什么。
+					</p>
+				</article>
+			</section>
+
+			<section class="back-note">
+				<p>相关笔记见 <a href="/math">数学一隅</a> 和 <a href="/blog">笔记集合</a>。</p>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+<style>
+	.page-main {
+		padding-top: 4rem;
+	}
+
+	.page-hero {
+		padding: 2rem;
+		margin-bottom: 2.5rem;
+	}
+
+	.page-hero h1 {
+		font-family: Georgia, "Times New Roman", serif;
+		font-size: 3.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.page-lead {
+		max-width: 42rem;
+		color: var(--muted);
+		font-size: 1.08rem;
+		line-height: 1.7;
+		margin-bottom: 0;
+	}
+
+	.topic-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.25rem;
+	}
+
+	.topic-card {
+		padding: 1.5rem;
+	}
+
+	.topic-card h2 {
+		font-size: 1.25rem;
+		margin-bottom: 0.8rem;
+		color: var(--leaf-dark);
+	}
+
+	.topic-card p {
+		margin-bottom: 0.6rem;
+		color: var(--muted);
+		font-size: 0.96rem;
+		line-height: 1.7;
+	}
+
+	.topic-card p:last-child {
+		margin-bottom: 0;
+	}
+
+	.topic-card code {
+		font-size: 0.88em;
+	}
+
+	.back-note {
+		padding-top: 3rem;
+		text-align: center;
+		color: var(--soft-muted);
+		font-size: 0.94rem;
+	}
+
+	.back-note a {
+		color: var(--leaf-dark);
+	}
+
+	@media (max-width: 760px) {
+		.page-main {
+			padding-top: 2rem;
+		}
+
+		.page-hero {
+			padding: 1.25rem;
+		}
+
+		.page-hero h1 {
+			font-size: 2.6rem;
+		}
+
+		.topic-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
