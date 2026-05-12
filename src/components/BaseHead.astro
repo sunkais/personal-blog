@@ -26,7 +26,7 @@ const socialImage = image ? new URL(image.src, Astro.url) : undefined;
 	title={SITE_TITLE}
 	href={new URL('rss.xml', Astro.site)}
 />
-<meta name="generator" content={Astro.generator} />
+<meta property="og:locale" content="zh-CN" />
 
 <!-- Font preloads -->
 <link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin />

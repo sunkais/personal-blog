@@ -69,11 +69,16 @@ const corners = [
 
 				<aside class="desk-area" aria-label="书桌角落">
 					<div class="desk-photo-wrapper">
-						<div class="desk-photo paper-card">
-							<div class="photo-placeholder" aria-label="个人照片占位">
-								<span class="photo-initial">松</span>
+						<div class="desk-photo">
+							<div class="photo-frame" aria-label="书桌上的一张个人相片">
+								<div class="photo-inner">
+									<span class="photo-initial">松</span>
+									<small class="photo-hint">photo</small>
+								</div>
 							</div>
+							<div class="photo-label">书桌一角</div>
 							<div class="tape tape-top"></div>
+							<div class="tape tape-bottom"></div>
 						</div>
 					</div>
 					<div class="desk-card paper-card">
@@ -177,47 +182,84 @@ const corners = [
 
 	.desk-photo {
 		position: relative;
-		width: 180px;
-		padding: 0.6rem 0.6rem 0.5rem;
-		transform: rotate(2deg);
-		transition: transform 240ms ease;
+		width: 170px;
+		transform: rotate(2.5deg);
+		transition: transform 260ms ease;
 	}
 
 	.desk-photo:hover {
 		transform: rotate(0deg);
 	}
 
-	.photo-placeholder {
+	.photo-frame {
+		padding: 0.45rem;
+		border: 1px solid var(--line);
+		border-radius: 3px;
+		background: var(--paper-warm);
+		box-shadow:
+			0 2px 8px rgba(76, 65, 45, 0.1),
+			0 8px 24px rgba(76, 65, 45, 0.06);
+	}
+
+	.photo-inner {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		gap: 0.3rem;
 		width: 100%;
 		aspect-ratio: 3 / 4;
-		border: 1px solid var(--line-soft);
-		border-radius: 2px;
-		background: linear-gradient(135deg, var(--paper-soft) 0%, var(--paper) 50%, var(--paper-warm) 100%);
+		background: linear-gradient(145deg, #f0ead8 0%, #ebe3cc 30%, #f3eee2 60%, #e8dfc8 100%);
+		border-radius: 1px;
+		overflow: hidden;
 	}
 
 	.photo-initial {
-		color: var(--line);
+		color: var(--leaf-dark);
 		font-family: Georgia, "Times New Roman", serif;
-		font-size: 3rem;
-		opacity: 0.5;
+		font-size: 2.6rem;
+		opacity: 0.45;
 		user-select: none;
+		line-height: 1;
+	}
+
+	.photo-hint {
+		color: var(--soft-muted);
+		font-size: 0.62rem;
+		font-weight: 400;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		opacity: 0.35;
+		user-select: none;
+	}
+
+	.photo-label {
+		margin-top: 0.55rem;
+		color: var(--soft-muted);
+		font-size: 0.76rem;
+		text-align: center;
+		line-height: 1;
 	}
 
 	.tape {
 		position: absolute;
-		height: 1.2rem;
-		background: rgba(236, 228, 214, 0.55);
+		height: 1.1rem;
+		background: rgba(236, 228, 214, 0.5);
 		border-radius: 1px;
 	}
 
 	.tape-top {
-		top: -0.3rem;
+		top: -0.25rem;
 		left: 50%;
-		width: 3.5rem;
-		transform: translateX(-50%) rotate(-1deg);
+		width: 3.2rem;
+		transform: translateX(-50%) rotate(-1.5deg);
+	}
+
+	.tape-bottom {
+		bottom: 1.5rem;
+		left: 50%;
+		width: 3.8rem;
+		transform: translateX(-50%) rotate(1deg);
 	}
 
 	.desk-card {
@@ -232,10 +274,10 @@ const corners = [
 		top: 1.1rem;
 		right: 1.2rem;
 		color: var(--leaf);
-		content: "∫Ω";
+		content: "\222B  \3A9";
 		font-family: Georgia, "Times New Roman", serif;
 		font-size: 3.8rem;
-		opacity: 0.11;
+		opacity: 0.1;
 		pointer-events: none;
 	}
 
@@ -365,7 +407,7 @@ const corners = [
 		}
 
 		.desk-photo {
-			width: 140px;
+			width: 135px;
 		}
 
 		.corner-grid {
@@ -400,7 +442,7 @@ const corners = [
 		}
 
 		.desk-photo {
-			width: 130px;
+			width: 120px;
 		}
 
 		.corner-grid {

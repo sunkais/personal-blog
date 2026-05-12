@@ -4,7 +4,6 @@ import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION } from '../../consts';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -14,16 +13,16 @@ const posts = (await getCollection('blog')).sort(
 <!doctype html>
 <html lang="zh-CN">
 	<head>
-		<BaseHead title="笔记 | 松间笔记" description={SITE_DESCRIPTION} />
+		<BaseHead title="笔记集合 | 松间笔记" description="数学、物理、AI 工具与论文写作的个人笔记，持续生长中。" />
 	</head>
 	<body>
 		<Header />
 		<main class="notes-main">
 			<section class="notes-hero">
 				<p class="eyebrow">Notes</p>
-				<h1>笔记</h1>
+				<h1>笔记集合</h1>
 				<p>
-					这里先放一些正在形成的短笔记：关于论文、数学方法和 AI 工具链。它们会从草稿慢慢长成可以反复回看的材料。
+					这里放着正在生长的数学笔记、物理直觉和 AI 工作流记录。它们不是教材，也不是教程——更像是书桌上的草稿本：有完成的片段，有正在推敲的论证，也有随手记下的问题。
 				</p>
 			</section>
 
