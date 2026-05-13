@@ -10,7 +10,6 @@ interface Props {
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-
 const { title, description, image } = Astro.props;
 const socialImage = image ? new URL(image.src, Astro.url) : undefined;
 ---
@@ -18,14 +17,10 @@ const socialImage = image ? new URL(image.src, Astro.url) : undefined;
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="theme-color" content="#07111f" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="sitemap" href="/sitemap-index.xml" />
-<link
-	rel="alternate"
-	type="application/rss+xml"
-	title={SITE_TITLE}
-	href={new URL('rss.xml', Astro.site)}
-/>
+<link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={new URL('rss.xml', Astro.site)} />
 <meta property="og:locale" content="zh-CN" />
 
 <!-- Font preloads -->
@@ -54,9 +49,6 @@ const socialImage = image ? new URL(image.src, Astro.url) : undefined;
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 {socialImage && <meta property="twitter:image" content={socialImage} />}
-<link
-	rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
-	integrity="sha384-n8MVd4RsNIU0tAv4ctG8JJwMsEupvyCS0Ot45MN9FcJLpdoa7WFiIFmJPkMwbIzm"
-	crossorigin="anonymous"
-/>
+
+<!-- KaTeX CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ctG8JJwMsEupvyCS0Ot45MN9FcJLpdoa7WFiIFmJPkMwbIzm" crossorigin="anonymous" />

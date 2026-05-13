@@ -1,14 +1,12 @@
 ---
-import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import type { CollectionEntry } from 'astro:content';
 
 type Props = CollectionEntry<'blog'>['data'];
-
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate } = Astro.props;
 ---
 
 <html lang="zh-CN">
@@ -19,65 +17,81 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				width: min(840px, calc(100% - 2rem));
 				padding-top: 3rem;
 			}
-			.hero-image {
-				width: 100%;
-				margin-bottom: 2rem;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 8px;
-				box-shadow: var(--soft-shadow);
-			}
-			.prose {
-				color: var(--ink);
-			}
+			.prose { color: var(--text-primary); }
 			.title {
 				margin-bottom: 2rem;
 				padding-bottom: 1.4rem;
-				border-bottom: 1px solid var(--line);
+				border-bottom: 1px solid var(--glass-border);
 			}
 			.title h1 {
 				margin: 0;
-				font-family: Georgia, "Times New Roman", serif;
-				font-size: 3.2rem;
+				font-size: 2.8rem;
+				background: linear-gradient(135deg, var(--electric-soft) 0%, var(--text-bright) 70%);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
 			}
 			.date {
 				margin-bottom: 0.7rem;
-				color: var(--soft-muted);
-				font-size: 0.95rem;
+				color: var(--text-muted);
+				font-size: 0.92rem;
+				font-family: "Courier New", "Consolas", monospace;
 			}
-			.last-updated-on {
-				margin-top: 0.25rem;
-			}
+			.last-updated-on { margin-top: 0.25rem; }
+
 			.prose :global(p),
 			.prose :global(ul),
-			.prose :global(ol) {
-				color: var(--muted);
+			.prose :global(ol) { color: var(--text-secondary); }
+
+			.prose :global(h2) {
+				margin-top: 2.5rem;
+				color: var(--electric-soft);
+				font-family: "Courier New", "Consolas", monospace;
+				letter-spacing: 0.03em;
 			}
-			.prose :global(h2),
 			.prose :global(h3) {
-				margin-top: 2rem;
+				margin-top: 1.8rem;
+				color: var(--text-bright);
 			}
-			.prose :global(a) {
-				text-decoration-thickness: 1px;
-				text-underline-offset: 0.18em;
-			}
+			.prose :global(a) { color: var(--electric); text-underline-offset: 0.18em; }
+
 			.prose :global(.katex-display) {
 				margin: 1.2rem 0;
-				padding: 1rem;
-				border: 1px solid var(--line-soft);
-				border-radius: 8px;
-				background: rgba(255, 253, 247, 0.7);
+				padding: 1rem 1.2rem;
+				border: 1px solid var(--glass-border);
+				border-radius: 6px;
+				background: rgba(7, 17, 31, 0.55);
+				position: relative;
 			}
+			.prose :global(.katex-display)::before {
+				content: "EQ";
+				position: absolute;
+				top: -0.55rem;
+				left: 0.8rem;
+				font-family: "Courier New", "Consolas", monospace;
+				font-size: 0.6rem;
+				color: var(--electric-dim);
+				letter-spacing: 0.14em;
+				background: var(--base);
+				padding: 0 0.4rem;
+			}
+
+			.prose :global(hr) { margin: 2rem 0; }
+
+			.prose :global(blockquote) {
+				margin: 1.5rem 0;
+				padding: 0.8rem 0 0.8rem 1.2rem;
+				border-left: 3px solid var(--electric);
+				background: rgba(15, 23, 42, 0.5);
+				border-radius: 0 6px 6px 0;
+			}
+
 			@media (max-width: 720px) {
 				main {
 					width: min(100% - 1.25rem, 840px);
 					padding-top: 2rem;
 				}
-				.title h1 {
-					font-size: 2.45rem;
-				}
+				.title h1 { font-size: 2rem; }
 			}
 		</style>
 	</head>
@@ -86,20 +100,11 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 		<Header />
 		<main>
 			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
 				<div class="prose">
 					<div class="title">
 						<div class="date">
 							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										最后更新于 <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
+							{updatedDate && <div class="last-updated-on">最后更新于 <FormattedDate date={updatedDate} /></div>}
 						</div>
 						<h1>{title}</h1>
 					</div>

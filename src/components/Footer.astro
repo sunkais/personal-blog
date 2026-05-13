@@ -1,57 +1,69 @@
 ---
 import { NEXUS_URL } from '../consts';
-
 const today = new Date();
 ---
 
 <footer>
 	<div class="footer-inner">
-		<p>&copy; {today.getFullYear()} 孙开松。松间笔记 Sunkais Garden。</p>
+		<div class="footer-info">
+			<p class="footer-brand">SKS Research Terminal</p>
+			<p>&copy; {today.getFullYear()} 孙开松。电磁研究档案 · 学园都市。</p>
+		</div>
 		<div class="footer-links">
-			<a href="/blog">笔记集合</a>
+			<a href="/blog">研究笔记</a>
+			<a href="/thesis">论文档案</a>
 			<a href="/math">数学</a>
 			<a href="/physics">物理</a>
 			<a href="/ai">AI 手札</a>
-			<a href="/thesis">论文书桌</a>
 			<a href="/projects">项目</a>
-			<a href="/about">关于</a>
+			<a href="/about">档案</a>
 			<a href={NEXUS_URL} target="_blank" rel="noreferrer">Nexus ↗</a>
 		</div>
 	</div>
 </footer>
 <style>
 	footer {
-		padding: 3.5rem 1rem 4rem;
-		border-top: 1px solid var(--line);
-		color: var(--muted);
+		padding: 3rem 1rem 4rem;
+		border-top: 1px solid var(--glass-border);
+		background: rgba(7, 17, 31, 0.5);
 	}
 	.footer-inner {
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 		justify-content: space-between;
-		gap: 1rem;
+		gap: 2rem;
 		width: min(1120px, 100%);
 		margin: 0 auto;
 	}
-	p {
+	.footer-brand {
+		font-family: "Courier New", "Consolas", monospace;
+		font-weight: 700;
+		color: var(--electric-soft);
+		letter-spacing: 0.06em;
+		margin-bottom: 0.3rem;
+	}
+	.footer-info p {
 		margin: 0;
+		color: var(--text-muted);
+		font-size: 0.88rem;
 	}
 	.footer-links {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.8rem;
+		gap: 0.6rem 1rem;
 	}
 	.footer-links a {
-		color: var(--muted);
+		color: var(--text-secondary);
 		text-decoration: none;
+		font-size: 0.88rem;
+		transition: color 160ms ease;
 	}
-	.footer-links a:hover {
-		color: var(--ink);
-	}
+	.footer-links a:hover { color: var(--electric-soft); }
 	@media (max-width: 720px) {
 		.footer-inner {
 			align-items: flex-start;
 			flex-direction: column;
+			gap: 1.5rem;
 		}
 	}
 </style>

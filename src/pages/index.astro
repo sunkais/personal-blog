@@ -3,44 +3,27 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import Formula from '../components/Formula.astro';
-import { NEXUS_URL, SITE_DESCRIPTION, SITE_NAME_EN, SITE_NAME_CN, SITE_TITLE } from '../consts';
+import { NEXUS_URL, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { getCollection } from 'astro:content';
 
 const notes = (await getCollection('blog'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 3);
+	.slice(0, 4);
 
-const corners = [
-	{
-		title: '数学一隅',
-		description: '偏微分方程、奇异项、Galerkin 方法、变分法与 Sobolev 空间。',
-		href: '/math',
-	},
-	{
-		title: '物理回声',
-		description: '从热方程、波方程到拟抛物方程，整理方程背后的物理直觉与模型来源。',
-		href: '/physics',
-	},
-	{
-		title: 'AI 手札',
-		description: 'Codex、Claude Code、GitHub Copilot、LaTeX 自动化与 AI 辅助写作工作流。',
-		href: '/ai',
-	},
-	{
-		title: '论文书桌',
-		description: '硕士论文、文献整理、证明细节、盲审修改和答辩材料。',
-		href: '/thesis',
-	},
-	{
-		title: '项目小径',
-		description: 'sunkais.com、Nexus 像素舱和慢慢生长的小项目。',
-		href: '/projects',
-	},
-	{
-		title: '生活碎片',
-		description: '游戏、毕业、审美、计划，以及重建生活的记录。',
-		href: '/about',
-	},
+const archives = [
+	{ id: 'EXP-2026-PPDE-01', title: '双奇异权拟抛物方程', desc: '局部适定性与稳态解', tags: ['Pseudo-Parabolic', 'Singular Weights', 'Variational'], href: '/blog/double-singular-pseudo-parabolic/', status: 'Active' },
+	{ id: 'EXP-2026-LS-02', title: '局部解证明路线', desc: 'Galerkin · 不动点 · 爆破判据', tags: ['Galerkin', 'Fixed Point', 'Blow-up'], href: '/blog/local-solution-proof/', status: 'Active' },
+	{ id: 'EXP-2026-SS-03', title: 'Mountain Pass 稳态解', desc: '能量泛函 · PS条件 · Nehari', tags: ['Mountain Pass', 'PS Condition', 'Nehari'], href: '/blog/mountain-pass-steady-state/', status: 'Active' },
+	{ id: 'EXP-2026-GL-04', title: 'Galerkin 方法', desc: '有限维逼近与极限传递', tags: ['Galerkin', 'Compactness', 'Estimate'], href: '/blog/galerkin-method-notes/', status: 'Active' },
+	{ id: 'EXP-2026-NM-05', title: '数值实验', desc: '可视化 · 参数实例 · 半离散', tags: ['Numerical', 'Visualization', 'Semi-discrete'], href: '/blog/numerical-glimpse/', status: 'Active' },
+];
+
+const abilities = [
+	{ name: 'Mathematical Analysis', sub: 'PDE / Variational Methods / Sobolev Spaces', level: 88 },
+	{ name: 'LaTeX & Thesis System', sub: 'Paper Writing / BibTeX / Codex Pipeline', level: 92 },
+	{ name: 'AI-Assisted Research', sub: 'Claude Code / Copilot / Literature Mining', level: 85 },
+	{ name: 'Personal Web Lab', sub: 'Astro / Design / sunkais.com', level: 78 },
+	{ name: 'Mini Game Room', sub: 'Puzzle / Reaction / Coming Soon', level: 60 },
 ];
 ---
 
@@ -52,70 +35,96 @@ const corners = [
 	<body>
 		<Header />
 		<main class="home-main">
+			<!-- Hero: 终端启动区 -->
 			<section class="hero">
 				<div class="hero-copy">
-					<p class="eyebrow">{SITE_NAME_EN}</p>
-					<h1>{SITE_NAME_CN}</h1>
-					<p class="hero-lead">{SITE_DESCRIPTION}</p>
-					<p class="hero-note">
-						这里记录数学、物理、AI 工具、硕士论文、个人项目，以及慢慢生长的生活。它不需要像教授主页那样严肃，也不需要像赛博站那样用力；更像一本安静翻开的笔记。
-					</p>
+					<div class="terminal-line">
+						<span class="prompt">&gt;</span> <span class="cmd">whoami</span>
+					</div>
+					<h1>孙开松<span class="cursor">_</span></h1>
+					<p class="hero-subtitle">SKS Research Terminal</p>
+					<p class="hero-lead">双奇异权拟抛物方程 · 数学笔记 · 个人实验室</p>
+					<p class="hero-motto">以数学为轨道，把混乱的灵感发射出去。</p>
 					<div class="button-row">
-						<a class="button primary" href="/blog">进入笔记</a>
-						<a class="button" href="/thesis">论文书桌</a>
-						<a class="button" href={NEXUS_URL} target="_blank" rel="noreferrer">访问 Nexus ↗</a>
+						<a class="button primary" href="/thesis">▶ 进入论文档案</a>
+						<a class="button" href="/blog">▶ 查看研究笔记</a>
+						<a class="button" href="/projects">▶ 项目实验室</a>
+						<a class="button" href="/about">▶ 研究者档案</a>
 					</div>
 				</div>
 
-				<aside class="desk-area" aria-label="书桌角落">
-					<div class="desk-photo-wrapper">
-						<div class="desk-photo">
-							<div class="photo-frame" aria-label="书桌上的一张个人相片">
-								<img class="photo-img" src="/avatar.jpg" alt="孙开松" loading="eager" />
-							</div>
-							<div class="photo-label">书桌一角</div>
-							<div class="tape tape-top"></div>
-							<div class="tape tape-bottom"></div>
+				<aside class="researcher-card paper-card" aria-label="研究者档案">
+					<div class="researcher-header">
+						<div class="avatar-ring">
+							<img class="avatar-img" src="/avatar.jpg" alt="Sun Kaisong" loading="eager" />
+						</div>
+						<div class="researcher-meta">
+							<p class="researcher-name">Sun Kaisong</p>
+							<p class="researcher-role">Mathematical Researcher</p>
 						</div>
 					</div>
-					<div class="desk-card paper-card">
-						<p class="desk-kicker">今日书桌</p>
-						<div class="desk-formula">
-							<Formula math="-\\Delta u = \\frac{|u|^{p-2}u}{|x|^s}" displayMode={true} />
-						</div>
-						<p class="desk-context">
-							正在整理：硕士论文答辩材料、Galerkin 方法笔记、Nexus 页面优化。
-						</p>
-						<p class="desk-keywords">
-							当前关键词：奇异项、拟抛物方程、Codex、LaTeX、个人网站。
-						</p>
+					<div class="researcher-stats">
+						<div class="stat-row"><span class="stat-label">Field</span><span class="stat-val">PDE / Variational Methods</span></div>
+						<div class="stat-row"><span class="stat-label">Focus</span><span class="stat-val">Pseudo-Parabolic Equations</span></div>
+						<div class="stat-row"><span class="stat-label">Status</span><span class="stat-val live">Preparing for Defense</span></div>
 					</div>
 				</aside>
 			</section>
 
-			<section class="corners" aria-labelledby="corners-title">
+			<!-- 论文档案区 -->
+			<section class="archive-section" aria-labelledby="archive-title">
 				<div class="section-heading">
-					<p class="eyebrow">Quiet Corners</p>
-					<h2 id="corners-title">几个安静的角落</h2>
+					<p class="eyebrow">Research Archive</p>
+					<h2 id="archive-title">论文档案</h2>
 				</div>
-				<div class="corner-grid">
-					{corners.map((corner) => (
-						<a class="corner-card paper-card" href={corner.href}>
-							<span>{corner.title}</span>
-							<p>{corner.description}</p>
+				<div class="archive-grid">
+					{archives.map((a) => (
+						<a class="archive-card paper-card" href={a.href}>
+							<div class="archive-head">
+								<span class="archive-id">{a.id}</span>
+								<span class="archive-status">{a.status}</span>
+							</div>
+							<h3>{a.title}</h3>
+							<p>{a.desc}</p>
+							<div class="archive-tags">
+								{a.tags.map((t) => <span class="tag">{t}</span>)}
+							</div>
 						</a>
 					))}
 				</div>
 			</section>
 
+			<!-- 能力开发区 -->
+			<section class="abilities-section" aria-labelledby="abilities-title">
+				<div class="section-heading">
+					<p class="eyebrow">Ability Development</p>
+					<h2 id="abilities-title">能力树</h2>
+				</div>
+				<div class="abilities-grid">
+					{abilities.map((ab) => (
+						<div class="ability-card paper-card">
+							<div class="ability-head">
+								<h3>{ab.name}</h3>
+								<span class="ability-lv">Lv.{ab.level}</span>
+							</div>
+							<p>{ab.sub}</p>
+							<div class="ability-bar-track">
+								<div class="ability-bar-fill" style={`width:${ab.level}%`}></div>
+							</div>
+						</div>
+					))}
+				</div>
+			</section>
+
+			<!-- 最近研究笔记 -->
 			<section class="recent-notes" aria-labelledby="notes-title">
 				<div class="section-heading">
-					<p class="eyebrow">Notes</p>
-					<h2 id="notes-title">最近整理</h2>
+					<p class="eyebrow">Recent Logs</p>
+					<h2 id="notes-title">最近笔记</h2>
 				</div>
 				<div class="note-strip">
 					{notes.map((note) => (
-						<a class="note-link" href={`/blog/${note.id}/`}>
+						<a class="note-link paper-card" href={`/blog/${note.id}/`}>
 							<span>{note.data.title}</span>
 							<small>{note.data.description}</small>
 						</a>
@@ -127,300 +136,315 @@ const corners = [
 	</body>
 </html>
 <style>
-	.home-main {
-		padding-top: 4rem;
-	}
+	.home-main { padding-top: 3.5rem; }
 
+	/* ===== Hero ===== */
 	.hero {
 		display: grid;
-		grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.72fr);
+		grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.7fr);
 		align-items: start;
 		gap: 3rem;
-		min-height: 70vh;
-		padding: 2rem 0 5rem;
+		min-height: 62vh;
+		padding: 2rem 0 4rem;
 	}
 
-	.hero-copy {
-		min-width: 0;
+	.terminal-line {
+		font-family: "Courier New", "Consolas", monospace;
+		color: var(--electric);
+		font-size: 1.1rem;
+		margin-bottom: 0.6rem;
+		letter-spacing: 0.04em;
 	}
+	.prompt { color: var(--electric); }
+	.cmd { color: var(--text-bright); }
 
 	.hero h1 {
-		margin-bottom: 0.45rem;
-		font-family: Georgia, "Times New Roman", serif;
+		font-size: 5rem;
+		margin-bottom: 0.3rem;
+		background: linear-gradient(135deg, var(--electric-soft) 0%, var(--text-bright) 55%, var(--violet) 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+	.cursor {
+		animation: blink 1s step-end infinite;
+		color: var(--electric);
+		-webkit-text-fill-color: var(--electric);
+	}
+	@keyframes blink { 50% { opacity: 0; } }
+
+	.hero-subtitle {
+		font-family: "Courier New", "Consolas", monospace;
+		color: var(--electric);
+		font-size: 1rem;
 		font-weight: 700;
+		letter-spacing: 0.12em;
+		margin-bottom: 0.8rem;
 	}
 
 	.hero-lead {
-		max-width: 37rem;
-		color: var(--leaf-dark);
-		font-size: 1.28rem;
+		max-width: 36rem;
+		color: var(--text-secondary);
+		font-size: 1.2rem;
 		font-weight: 700;
 		line-height: 1.6;
-		overflow-wrap: anywhere;
+		margin-bottom: 0.6rem;
 	}
 
-	.hero-note {
-		max-width: 42rem;
-		color: var(--muted);
-		overflow-wrap: anywhere;
-	}
-
-	.desk-area {
-		display: flex;
-		flex-direction: column;
-		gap: 1.25rem;
-		min-width: 0;
-	}
-
-	.desk-photo-wrapper {
-		display: flex;
-		justify-content: center;
-	}
-
-	.desk-photo {
-		position: relative;
-		width: 170px;
-		transform: rotate(2.5deg);
-		transition: transform 260ms ease;
-	}
-
-	.desk-photo:hover {
-		transform: rotate(0deg);
-	}
-
-	.photo-frame {
-		padding: 0.45rem;
-		border: 1px solid var(--line);
-		border-radius: 3px;
-		background: var(--paper-warm);
-		box-shadow:
-			0 2px 8px rgba(76, 65, 45, 0.1),
-			0 8px 24px rgba(76, 65, 45, 0.06);
-	}
-
-	.photo-img {
-		display: block;
-		width: 100%;
-		height: auto;
-		aspect-ratio: 3 / 4;
-		object-fit: cover;
-		border-radius: 1px;
-	}
-
-	.photo-label {
-		margin-top: 0.55rem;
-		color: var(--soft-muted);
-		font-size: 0.76rem;
-		text-align: center;
-		line-height: 1;
-	}
-
-	.tape {
-		position: absolute;
-		height: 1.1rem;
-		background: rgba(236, 228, 214, 0.5);
-		border-radius: 1px;
-	}
-
-	.tape-top {
-		top: -0.25rem;
-		left: 50%;
-		width: 3.2rem;
-		transform: translateX(-50%) rotate(-1.5deg);
-	}
-
-	.tape-bottom {
-		bottom: 1.5rem;
-		left: 50%;
-		width: 3.8rem;
-		transform: translateX(-50%) rotate(1deg);
-	}
-
-	.desk-card {
-		position: relative;
-		min-width: 0;
-		padding: 1.55rem;
-		overflow: hidden;
-	}
-
-	.desk-card::before {
-		position: absolute;
-		top: 1.1rem;
-		right: 1.2rem;
-		color: var(--leaf);
-		content: "\222B  \3A9";
-		font-family: Georgia, "Times New Roman", serif;
-		font-size: 3.8rem;
-		opacity: 0.1;
-		pointer-events: none;
-	}
-
-	.desk-kicker {
-		margin-bottom: 1rem;
-		color: var(--leaf-dark);
-		font-weight: 700;
-	}
-
-	.desk-formula {
-		margin: 0 0 0.9rem;
-		padding-bottom: 0.9rem;
-		border-bottom: 1px solid var(--line);
-		overflow-x: auto;
-	}
-
-	.desk-formula :global(.katex) {
-		font-size: 1.15rem;
-	}
-
-	.desk-context {
-		margin-bottom: 0.5rem;
-		color: var(--muted);
-		font-size: 0.92rem;
-		line-height: 1.6;
-	}
-
-	.desk-keywords {
-		color: var(--soft-muted);
-		font-size: 0.84rem;
-		line-height: 1.55;
-	}
-
-	.corners,
-	.recent-notes {
-		padding: 4rem 0 0;
-	}
-
-	.section-heading {
-		max-width: 38rem;
+	.hero-motto {
+		max-width: 36rem;
+		color: var(--text-muted);
+		font-style: italic;
 		margin-bottom: 1.5rem;
 	}
 
+	/* ===== 研究者档案卡片 ===== */
+	.researcher-card {
+		padding: 1.5rem;
+	}
+
+	.researcher-header {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 1.2rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid var(--line-soft);
+	}
+
+	.avatar-ring {
+		flex-shrink: 0;
+		width: 64px; height: 64px;
+		border-radius: 50%;
+		padding: 2px;
+		background: conic-gradient(var(--electric), var(--violet), var(--electric));
+	}
+	.avatar-img {
+		width: 100%; height: 100%;
+		border-radius: 50%;
+		object-fit: cover;
+		display: block;
+	}
+
+	.researcher-name {
+		font-family: "Courier New", "Consolas", monospace;
+		font-weight: 700;
+		color: var(--text-bright);
+		font-size: 1.08rem;
+		margin: 0;
+		letter-spacing: 0.04em;
+	}
+	.researcher-role {
+		color: var(--electric);
+		font-size: 0.82rem;
+		margin: 0.15rem 0 0;
+		letter-spacing: 0.06em;
+	}
+
+	.researcher-stats { display: grid; gap: 0.55rem; }
+	.stat-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 0.5rem;
+		font-size: 0.85rem;
+	}
+	.stat-label {
+		color: var(--text-muted);
+		font-size: 0.76rem;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		flex-shrink: 0;
+	}
+	.stat-val {
+		color: var(--text-secondary);
+		text-align: right;
+	}
+	.stat-val.live {
+		color: var(--electric-soft);
+		position: relative;
+		padding-left: 0.8rem;
+	}
+	.stat-val.live::before {
+		content: "";
+		position: absolute;
+		left: 0; top: 50%;
+		transform: translateY(-50%);
+		width: 6px; height: 6px;
+		border-radius: 50%;
+		background: var(--electric);
+		animation: pulse-dot 2s ease infinite;
+	}
+	@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+	/* ===== Section 通用 ===== */
+	.archive-section, .abilities-section, .recent-notes { padding: 4rem 0 0; }
+	.section-heading { max-width: 38rem; margin-bottom: 1.5rem; }
 	.section-heading h2 {
 		margin-bottom: 0.35rem;
+		font-family: "Courier New", "Consolas", monospace;
+		letter-spacing: 0.04em;
 	}
 
-	.corner-grid {
+	/* ===== 档案卡片 ===== */
+	.archive-grid {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: 1rem;
 	}
 
-	.corner-card {
-		min-height: 10rem;
+	.archive-card {
 		padding: 1.2rem;
-		color: var(--ink);
+		color: var(--text-primary);
 		text-decoration: none;
-		transition:
-			transform 160ms ease,
-			border-color 160ms ease,
-			box-shadow 160ms ease;
+		display: grid;
+		gap: 0.5rem;
 	}
+	.archive-card:hover { color: var(--text-primary); }
 
-	.corner-card:hover {
-		border-color: var(--leaf);
-		box-shadow: var(--shadow);
-		color: var(--ink);
-		transform: translateY(-3px);
+	.archive-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 0.5rem;
 	}
-
-	.corner-card span {
-		display: block;
-		margin-bottom: 0.6rem;
-		color: var(--leaf-dark);
-		font-size: 1.08rem;
+	.archive-id {
+		font-family: "Courier New", "Consolas", monospace;
+		font-size: 0.72rem;
+		color: var(--electric);
+		letter-spacing: 0.04em;
+	}
+	.archive-status {
+		font-size: 0.68rem;
 		font-weight: 700;
+		color: var(--electric-soft);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		padding: 0.1rem 0.4rem;
+		border: 1px solid var(--glass-border);
+		border-radius: 3px;
 	}
 
-	.corner-card p {
+	.archive-card h3 {
+		font-size: 1.05rem;
 		margin: 0;
-		color: var(--muted);
-		font-size: 0.94rem;
-		line-height: 1.65;
+		color: var(--text-bright);
+	}
+	.archive-card p {
+		font-size: 0.88rem;
+		color: var(--text-secondary);
+		margin: 0;
+		line-height: 1.55;
 	}
 
+	.archive-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem;
+		padding-top: 0.3rem;
+	}
+	.tag {
+		padding: 0.12rem 0.45rem;
+		border: 1px solid var(--glass-border);
+		border-radius: 3px;
+		font-size: 0.7rem;
+		color: var(--text-muted);
+		letter-spacing: 0.04em;
+	}
+
+	/* ===== 能力卡片 ===== */
+	.abilities-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.ability-card {
+		padding: 1.2rem;
+	}
+
+	.ability-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 0.5rem;
+		margin-bottom: 0.4rem;
+	}
+	.ability-head h3 {
+		font-size: 0.98rem;
+		margin: 0;
+		color: var(--text-bright);
+	}
+	.ability-lv {
+		font-family: "Courier New", "Consolas", monospace;
+		font-size: 0.78rem;
+		font-weight: 700;
+		color: var(--electric);
+		flex-shrink: 0;
+	}
+
+	.ability-card p {
+		font-size: 0.85rem;
+		color: var(--text-secondary);
+		margin: 0 0 0.7rem;
+		line-height: 1.5;
+	}
+
+	.ability-bar-track {
+		height: 4px;
+		border-radius: 2px;
+		background: rgba(125,211,252,0.12);
+		overflow: hidden;
+	}
+	.ability-bar-fill {
+		height: 100%;
+		border-radius: 2px;
+		background: linear-gradient(90deg, var(--electric-dim), var(--electric), var(--electric-soft));
+		transition: width 800ms ease;
+	}
+
+	/* ===== 最近笔记 ===== */
 	.note-strip {
 		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1rem;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.75rem;
 	}
 
 	.note-link {
 		display: grid;
-		gap: 0.45rem;
-		padding: 1rem 0;
-		border-top: 1px solid var(--line);
-		color: var(--ink);
+		gap: 0.4rem;
+		padding: 1rem 1.2rem;
+		color: var(--text-primary);
 		text-decoration: none;
 	}
-
 	.note-link span {
 		font-weight: 700;
+		font-size: 0.98rem;
 	}
-
 	.note-link small {
-		color: var(--muted);
-		font-size: 0.92rem;
-		line-height: 1.55;
+		color: var(--text-secondary);
+		font-size: 0.86rem;
+		line-height: 1.5;
 	}
+	.note-link:hover span { color: var(--electric-soft); }
 
-	.note-link:hover span {
-		color: var(--leaf-dark);
-	}
-
+	/* ===== 响应式 ===== */
 	@media (max-width: 980px) {
 		.hero {
 			grid-template-columns: 1fr;
 			min-height: auto;
 		}
-
-		.desk-area {
-			display: grid;
-			grid-template-columns: auto 1fr;
-			gap: 1.25rem;
-			align-items: start;
-		}
-
-		.desk-photo {
-			width: 135px;
-		}
-
-		.corner-grid {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-
-		.note-strip {
-			grid-template-columns: 1fr;
-		}
+		.hero h1 { font-size: 3.8rem; }
+		.archive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+		.abilities-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+		.note-strip { grid-template-columns: 1fr; }
 	}
 
 	@media (max-width: 620px) {
-		.home-main {
-			padding-top: 2rem;
-		}
-
-		.hero {
-			gap: 2rem;
-			padding-bottom: 3rem;
-		}
-
-		.hero-lead {
-			font-size: 1.12rem;
-		}
-
-		.desk-area {
-			grid-template-columns: 1fr;
-		}
-
-		.desk-photo-wrapper {
-			justify-content: flex-start;
-		}
-
-		.desk-photo {
-			width: 120px;
-		}
-
-		.corner-grid {
-			grid-template-columns: 1fr;
-		}
+		.home-main { padding-top: 2rem; }
+		.hero { gap: 2rem; padding-bottom: 2.5rem; }
+		.hero h1 { font-size: 2.8rem; }
+		.hero-lead { font-size: 1.05rem; }
+		.archive-grid, .abilities-grid { grid-template-columns: 1fr; }
 	}
 </style>
