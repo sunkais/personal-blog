@@ -33,7 +33,7 @@ function replaceInlineMath(parent) {
 	if (!Array.isArray(parent.children)) return;
 
 	const nextChildren = [];
-	const inlinePattern = /\\\(([\s\S]+?)\\\)|\(([^()]*?(?:\\[A-Za-z]+|[_^{}]|[=<>])[^()]*?)\)/g;
+	const inlinePattern = /\\\(([\s\S]+?)\\\)/g;
 
 	for (const child of parent.children) {
 		if (child.type !== 'text') {

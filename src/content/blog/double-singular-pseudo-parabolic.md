@@ -1,5 +1,5 @@
 ---
-title: '双奇异权拟抛物方程：从模型到研究框架'
+title: '拟抛物方程研究框架：从模型到两条证明主线'
 description: '整理论文的核心方程、参数条件来源和两条证明主线。'
 pubDate: '2026-05-12'
 ---
@@ -12,18 +12,16 @@ pubDate: '2026-05-12'
 
 \[
 \begin{cases}
-\dfrac{u_t}{|x|^{s_1}} - \Delta u - \Delta u_t = \dfrac{|u|^{p-2}u}{|x|^{s_2}}, & (x,t) \in \Omega \times (0,T) \\[8pt]
-u(x,0) = u_0(x), & x \in \Omega \\[4pt]
-u(x,t) = 0, & (x,t) \in \partial\Omega \times (0,T)
+|x|^{-s_1}u_t-\Delta u_t-\Delta u = |x|^{-s_2}|u|^{p-2}u, & (x,t)\in \Omega\times(0,T),\\
+u(x,0)=u_0(x), & x\in\Omega,\\
+u(x,t)=0, & (x,t)\in\partial\Omega\times(0,T).
 \end{cases}
 \]
 
-其中区域 \( \Omega \subset \mathbb{R}^N \) 有界光滑，\( N > 2 \)，原点 \( 0 \in \Omega \)。参数满足条件 \( (\mathrm{H}) \)：
+其中区域 \( \Omega \subset \mathbb{R}^N \) 有界光滑，\( N \gt 2 \)，原点 \( 0 \in \Omega \)。参数满足条件 \( (\mathrm{H}) \)：
 
 \[
-0 \le s_1 \le 2,\qquad
-2N+p-pN \le s_2 \le N+p-\frac{1}{2}pN,\qquad
-2 < p \le \frac{2N}{N-1}
+0\le s_1\le 2,\qquad 2N+p-pN\le s_2\le N+p-\frac12pN,\qquad 2\lt p\le \frac{2N}{N-1}.
 \]
 
 ## 为什么叫"双奇异"
@@ -42,30 +40,22 @@ u(x,t) = 0, & (x,t) \in \partial\Omega \times (0,T)
 **上界的来源：Hardy–Sobolev 梯度指数约束。** 要估计带权积分 \( \int_\Omega \frac{|u|^p}{|x|^{s_2}}\,dx \)，Hardy–Sobolev 不等式给出的梯度指数为
 
 \[
-q = \frac{pN}{N-s_2+p}
+q=\frac{pN}{N-s_2+p}
 \]
 
-为了让这个指数被 \( H_0^1 \) 能量框架 \( \|\nabla u\|_2 \) 控制，要求 \( q \le 2 \)，这直接推出
-
-\[
-s_2 \le N+p-\frac{1}{2}pN
-\]
+为了让这个指数被 \( H_0^1 \) 能量框架 \( \|\nabla u\|_2 \) 控制，要求 \( q \le 2 \)，这直接推出 \( s_2 \le N+p-\frac12pN \)。
 
 **下界的来源：压缩映射差估计的指数约束。** 在非线性项的 Lipschitz 估计中引入指数
 
 \[
-a = \frac{N(p-2)}{p-s_2}
+a=\frac{N(p-2)}{p-s_2}
 \]
 
-要求 Hölder 拆分可行等价于 \( a \ge 1 \)，即
-
-\[
-s_2 \ge 2N+p-pN
-\]
+要求 Hölder 拆分可行等价于 \( a \ge 1 \)，即 \( s_2 \ge 2N+p-pN \)。
 
 两条线索在"能否被 \( L^2 \) 梯度控制"这一点汇合。参数条件本质上保证了这两个关键指数同时落在 \( H_0^1 \) 能量框架的可控范围内。
 
-关于 \( 0 \le s_1 \le 2 \)：这个限制保证加权时间导数项能与 \( H_0^1 \) 框架中的加权内积和范数等价性配合。关于 \( 2 < p \le \frac{2N}{N-1} \)：下界来自山路几何中大尺度负项压过正项的要求，上界来自 Sobolev 嵌入的可控范围。
+关于 \( 0 \le s_1 \le 2 \)：这个限制保证加权时间导数项能与 \( H_0^1 \) 框架中的加权内积和范数等价性配合。关于 \( 2 \lt p \le \frac{2N}{N-1} \)：下界来自山路几何中大尺度负项压过正项的要求，上界来自 Sobolev 嵌入的可控范围。
 
 ## 两个核心问题
 
@@ -98,3 +88,10 @@ s_2 \ge 2N+p-pN
 4. 对局部发展方程做径向半离散数值实验，观察小初值短时行为。
 
 数值实验说明理论条件不是空洞的——确实存在具体的参数组合和区域使所有条件成立，并且数值结果与理论预测一致。
+
+## 继续阅读
+
+- [局部解证明地图：从无权模型到双奇异权](/blog/local-solution-proof/) — Galerkin 方法的完整展开
+- [稳态解变分方法：从能量泛函到 Mountain Pass](/blog/mountain-pass-steady-state/) — 变分法的完整展开
+- [Galerkin 方法学习笔记](/blog/galerkin-method-notes/) — 有限维逼近的通用框架
+- [我的硕士论文研究了什么](/blog/my-thesis-research/) — 论文总览

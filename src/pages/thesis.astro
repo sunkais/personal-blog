@@ -8,7 +8,7 @@ import Formula from '../components/Formula.astro';
 <!doctype html>
 <html lang="zh-CN">
 	<head>
-		<BaseHead title="论文书桌 | 松间笔记" description="硕士论文：具双奇性的拟抛物方程的局部适定性与稳态解。研究对象、证明路线、文献脉络与写作过程。" />
+		<BaseHead title="论文书桌 | 松间笔记" description="硕士论文：具双奇性的拟抛物方程的局部适定性与稳态解。这里不放 PDF，而是把论文拆成可阅读的研究笔记。" />
 	</head>
 	<body>
 		<Header />
@@ -17,108 +17,86 @@ import Formula from '../components/Formula.astro';
 				<p class="eyebrow">Thesis Desk</p>
 				<h1>论文书桌</h1>
 				<p class="page-lead">
-					这里不放完整论文，而是整理研究对象、证明路线、文献脉络和写作过程。把硕士论文从"要做的事"变成"正在逐步讲清楚的事"。
+					论文标题：<strong>具双奇性的拟抛物方程的局部适定性与稳态解</strong>。这里不提供 PDF 下载，而是把论文拆成若干可阅读的研究笔记：模型从哪里来、困难在哪里、证明路线如何展开，以及数值例子如何帮助理解。
 				</p>
 			</section>
 
-			<section class="topic-grid">
-				<article class="topic-card paper-card">
-					<h2>论文标题</h2>
-					<p class="thesis-title-chinese">具双奇性的拟抛物方程的局部适定性与稳态解</p>
-					<p class="thesis-title-english">Local Well-Posedness and Steady-State Solutions for a Pseudo-Parabolic Equation with Double Singularities</p>
-				</article>
-
-				<article class="topic-card paper-card">
-					<h2>研究对象</h2>
-					<p>
-						论文研究具有<strong>双重独立奇异项</strong>的拟抛物方程初边值问题：
-					</p>
+			<section class="hub-section">
+				<div class="hub-card main-card paper-card">
+					<span class="hub-badge">研究对象</span>
+					<h2>双奇异权拟抛物方程</h2>
 					<div class="equation-box">
-						<Formula math="\\begin{cases} \\dfrac{u_t}{|x|^{s_1}} - \\Delta u - \\Delta u_t = \\dfrac{|u|^{p-2}u}{|x|^{s_2}}, & (x,t) \\in \\Omega \\times (0,T) \\\\\\\\[8pt] u(x,0) = u_0(x), & x \\in \\Omega \\\\\\\\[4pt] u(x,t) = 0, & (x,t) \\in \\partial\\Omega \\times (0,T) \\end{cases}" displayMode={true} />
+						<Formula math="\\begin{cases} |x|^{-s_1}u_t-\\Delta u_t-\\Delta u = |x|^{-s_2}|u|^{p-2}u, & (x,t)\\in \\Omega\\times(0,T),\\\\ u(x,0)=u_0(x), & x\\in\\Omega,\\\\ u(x,t)=0, & (x,t)\\in\\partial\\Omega\\times(0,T). \\end{cases}" displayMode={true} />
 					</div>
 					<p>
-						其中区域有界光滑，<code>N &gt; 2</code>，原点属于区域内部。核心参数满足条件 (H)：
+						演化项和源项各带一个独立的奇异权 <code>|x|<sup>&minus;s<sub>1</sub></sup></code> 和 <code>|x|<sup>&minus;s<sub>2</sub></sup></code>。研究方法分为两条主线：发展方程的局部适定性和稳态方程的非平凡解存在性。
 					</p>
-					<div class="equation-box">
-						<Formula math="0 \\le s_1 \\le 2,\\quad 2N+p-pN \\le s_2 \\le N+p-\\tfrac{1}{2}pN,\\quad 2 \\lt p \\le \\tfrac{2N}{N-1}" displayMode={true} />
+				</div>
+
+				<div class="hub-grid">
+					<div class="hub-card paper-card">
+						<span class="hub-badge">主线一</span>
+						<h2>局部解</h2>
+						<p class="hub-path">截断 → Galerkin → Hardy&ndash;Sobolev → Banach 不动点 → 爆破判据</p>
+						<p>证明初边值问题在某个时间区间内存在唯一弱解，并建立最大存在时间有限时的爆破判据。</p>
+						<div class="hub-links">
+							<a href="/blog/local-solution-proof/">→ 局部解证明地图</a>
+							<a href="/blog/why-galerkin/">→ Galerkin 方法在做什么</a>
+						</div>
 					</div>
-					<p>
-						与仅有演化项或非线性项含单个奇异项的模型不同：这里 |x|<sup>&minus;s<sub>1</sub></sup> 作用于演化项（刻画介质密度空间非均匀性），|x|<sup>&minus;s<sub>2</sub></sup> 作用于源项（刻画源项在原点附近的集中效应）。两个奇异项分别落在方程的不同部分，无权情形下的标准工具不能直接应用。
-					</p>
-				</article>
 
-				<article class="topic-card paper-card">
-					<h2>核心困难</h2>
-					<p>
-						双重独立奇异结构带来三个层面的困难：
-					</p>
-					<p>
-						<strong>1. Sobolev 嵌入失效。</strong>标准 H<sup>1</sup> 到 L<sup>q</sup> 的嵌入在加权后需要借助 Hardy&ndash;Sobolev 型不等式重新检验。
-					</p>
-					<p>
-						<strong>2. 能量估计需要加权框架。</strong>演化项中的权重改变时间导数的自然匹配方式，源项中的权重影响非线性积分控制。
-					</p>
-					<p>
-						<strong>3. 变分框架需重构。</strong>稳态问题中，能量泛函的适定性、C<sup>1</sup> 可微性和 Palais&ndash;Smale 条件的验证都依赖于加权空间的紧嵌入性质。
-					</p>
-				</article>
-
-				<article class="topic-card paper-card">
-					<h2>局部解问题</h2>
-					<p>
-						<strong>目标：</strong>证明初边值问题弱解的局部存在性与唯一性，并建立最大存在时间有限时的爆破判据。
-					</p>
-					<p>
-						<strong>方法路径：</strong>
-					</p>
-					<p>
-						① 对奇异系数作截断处理，消除原点附近的奇异性；<br/>
-						② 在截断线性问题上构造 Galerkin 近似解（以 Laplace 特征函数为基）；<br/>
-						③ 建立与维数无关的先验估计，利用 Hardy&ndash;Sobolev 不等式控制加权积分；<br/>
-						④ 通过 Banach 不动点定理证明局部存在唯一性；<br/>
-						⑤ 提供基于抽象算子与半群方法的替代证明；<br/>
-						⑥ 建立爆破判据：最大存在时间有限时，梯度 L<sup>2</sup> 范数、加权 L<sup>p</sup> 积分等均爆破。
-					</p>
-				</article>
-
-				<article class="topic-card paper-card">
-					<h2>稳态解问题</h2>
-					<p>
-						<strong>目标：</strong>证明对应椭圆方程的非平凡弱解存在性。
-					</p>
-					<div class="equation-box">
-						<Formula math="-\\Delta u = \\frac{|u|^{p-2}u}{|x|^{s_2}}, \\quad u|_{\\partial\\Omega} = 0" displayMode={true} />
+					<div class="hub-card paper-card">
+						<span class="hub-badge">主线二</span>
+						<h2>稳态解</h2>
+						<p class="hub-path">能量泛函 → Mountain Pass → Palais&ndash;Smale → Nehari</p>
+						<p>证明对应椭圆方程存在非平凡弱解，使用变分法和山路定理。</p>
+						<div class="hub-links">
+							<a href="/blog/mountain-pass-steady-state/">→ 稳态解变分方法</a>
+							<a href="/blog/why-mountain-pass/">→ 为什么像翻过一座山</a>
+						</div>
 					</div>
-					<p>
-						<strong>方法路径：</strong>
-					</p>
-					<p>
-						① 构造能量泛函，证明其在 H<sub>0</sub><sup>1</sup> 上适定且属于 C<sup>1</sup>；<br/>
-						② 利用次临界 Hardy&ndash;Sobolev 紧嵌入验证山路几何结构；<br/>
-						③ 验证 Palais&ndash;Smale 条件：PS 序列有强收敛子列；<br/>
-						④ 通过 Mountain Pass 定理得到非平凡稳态弱解；<br/>
-						⑤ 从 Nehari 流形和加权 Sobolev 商极小化给出第二条存在性证明。
-					</p>
-				</article>
+				</div>
+			</section>
 
-				<article class="topic-card paper-card">
-					<h2>实例与数值验证</h2>
-					<p>
-						论文以三维单位球为实例区域，选取满足所有参数条件的具体指标：
-					</p>
-					<p>
-						<strong>物理含义：</strong>以中心集中源的非均匀介质模型解释两个奇异权项的物理意义。
-					</p>
-					<p>
-						<strong>参数核对：</strong>逐条验证局部解和稳态问题所需的参数条件全部满足。
-					</p>
-					<p>
-						<strong>Mountain Pass 可视化：</strong>沿显式径向测试函数构造能量路径，计算并绘制能量曲线，展示山路几何结构。
-					</p>
-					<p>
-						<strong>局部演化数值实验：</strong>对局部发展方程做径向半离散数值实验，观察小初值下能量下降与解剖面短时衰减行为。
-					</p>
-				</article>
+			<section class="chapter-overview paper-card">
+				<h2>从哪里开始读</h2>
+				<div class="reading-guide">
+					<div class="guide-item">
+						<span class="guide-icon">&#9670;</span>
+						<div>
+							<strong>想快速知道研究什么</strong>
+							<p><a href="/blog/double-singular-pseudo-parabolic/">拟抛物方程研究框架</a> — 方程全景、参数条件来源、两条主线总览。</p>
+						</div>
+					</div>
+					<div class="guide-item">
+						<span class="guide-icon">&#9670;</span>
+						<div>
+							<strong>想理解局部解</strong>
+							<p><a href="/blog/local-solution-proof/">局部解证明地图</a>、<a href="/blog/why-galerkin/">Galerkin 方法在做什么</a>、<a href="/blog/galerkin-method-notes/">Galerkin 方法学习笔记</a>。</p>
+						</div>
+					</div>
+					<div class="guide-item">
+						<span class="guide-icon">&#9670;</span>
+						<div>
+							<strong>想理解稳态解</strong>
+							<p><a href="/blog/mountain-pass-steady-state/">稳态解变分方法</a>、<a href="/blog/why-mountain-pass/">为什么像翻过一座山</a>。</p>
+						</div>
+					</div>
+					<div class="guide-item">
+						<span class="guide-icon">&#9670;</span>
+						<div>
+							<strong>想看直观例子</strong>
+							<p><a href="/blog/numerical-glimpse/">数值实验只是直观</a> — 参数实例、Mountain Pass 路径可视化、半离散演化实验。</p>
+						</div>
+					</div>
+					<div class="guide-item">
+						<span class="guide-icon">&#9670;</span>
+						<div>
+							<strong>想了解模型背景</strong>
+							<p><a href="/blog/singular-weights-physical-picture/">奇异权到底是什么意思</a>、<a href="/blog/from-ode-to-double-singular/">从一个数的变化到双奇异权拟抛物方程</a>。</p>
+						</div>
+					</div>
+				</div>
 			</section>
 
 			<section class="chapter-overview paper-card">
@@ -171,7 +149,7 @@ import Formula from '../components/Formula.astro';
 			</section>
 
 			<section class="back-note">
-				<p>相关笔记见 <a href="/math">数学一隅</a>、<a href="/physics">物理回声</a> 和 <a href="/blog">笔记集合</a>。</p>
+				<p>相关页面：<a href="/math">数学一隅</a> · <a href="/physics">物理回声</a> · <a href="/blog">笔记集合</a> · <a href="/projects">项目小径</a></p>
 			</section>
 		</main>
 		<Footer />
@@ -194,53 +172,77 @@ import Formula from '../components/Formula.astro';
 	}
 
 	.page-lead {
-		max-width: 42rem;
+		max-width: 44rem;
 		color: var(--muted);
 		font-size: 1.08rem;
-		line-height: 1.7;
+		line-height: 1.75;
 		margin-bottom: 0;
 	}
 
-	.topic-grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1.25rem;
+	.hub-section {
 		margin-bottom: 2rem;
 	}
 
-	.topic-card {
+	.hub-card {
 		padding: 1.5rem;
+		margin-bottom: 1.25rem;
 	}
 
-	.topic-card h2 {
-		font-size: 1.25rem;
-		margin-bottom: 0.8rem;
+	.hub-card h2 {
+		font-size: 1.3rem;
+		margin-bottom: 0.6rem;
 		color: var(--leaf-dark);
 	}
 
-	.topic-card p {
-		margin-bottom: 0.6rem;
+	.hub-card p {
 		color: var(--muted);
 		font-size: 0.96rem;
 		line-height: 1.7;
+		margin-bottom: 0.6rem;
 	}
 
-	.topic-card p:last-child {
-		margin-bottom: 0;
-	}
-
-	.thesis-title-chinese {
-		font-family: Georgia, "Times New Roman", serif;
-		font-size: 1.15rem;
+	.hub-badge {
+		display: inline-block;
+		padding: 0.15rem 0.55rem;
+		margin-bottom: 0.6rem;
+		border: 1px solid var(--leaf);
+		border-radius: 4px;
+		color: var(--leaf-dark);
+		font-size: 0.78rem;
 		font-weight: 700;
-		color: var(--ink) !important;
-		margin-bottom: 0.4rem !important;
+		letter-spacing: 0.04em;
 	}
 
-	.thesis-title-english {
-		font-size: 0.94rem;
-		font-style: italic;
-		color: var(--soft-muted) !important;
+	.hub-path {
+		font-family: "Atkinson", sans-serif;
+		font-size: 0.88rem !important;
+		color: var(--leaf) !important;
+		font-weight: 700;
+		margin-bottom: 0.5rem !important;
+	}
+
+	.hub-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.25rem;
+	}
+
+	.hub-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		padding-top: 0.4rem;
+	}
+
+	.hub-links a {
+		color: var(--leaf-dark);
+		font-size: 0.9rem;
+		font-weight: 700;
+		text-decoration: none;
+	}
+
+	.hub-links a:hover {
+		color: var(--twig);
 	}
 
 	.equation-box {
@@ -249,7 +251,7 @@ import Formula from '../components/Formula.astro';
 		border: 1px solid var(--line-soft);
 		border-radius: 6px;
 		background: rgba(255, 253, 247, 0.55);
-		font-size: 0.94rem;
+		font-size: 0.92rem;
 		overflow-x: auto;
 	}
 
@@ -300,6 +302,42 @@ import Formula from '../components/Formula.astro';
 		line-height: 1.55;
 	}
 
+	.reading-guide {
+		display: grid;
+		gap: 0.8rem;
+	}
+
+	.guide-item {
+		display: grid;
+		grid-template-columns: 1.5rem 1fr;
+		gap: 0.75rem;
+		padding: 0.6rem 0;
+		border-bottom: 1px solid var(--line-soft);
+		align-items: baseline;
+	}
+
+	.guide-item:last-child {
+		border-bottom: none;
+	}
+
+	.guide-icon {
+		color: var(--leaf);
+		font-size: 0.75rem;
+		line-height: 1;
+		padding-top: 0.3rem;
+	}
+
+	.guide-item p {
+		margin: 0.15rem 0 0;
+		color: var(--muted);
+		font-size: 0.9rem;
+		line-height: 1.6;
+	}
+
+	.guide-item a {
+		color: var(--leaf-dark);
+	}
+
 	.method-grid {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -347,7 +385,7 @@ import Formula from '../components/Formula.astro';
 			font-size: 2.6rem;
 		}
 
-		.topic-grid {
+		.hub-grid {
 			grid-template-columns: 1fr;
 		}
 
@@ -356,7 +394,8 @@ import Formula from '../components/Formula.astro';
 			gap: 0.2rem;
 		}
 
-		.method-grid {
+		.method-grid,
+		.guide-item {
 			grid-template-columns: 1fr;
 		}
 	}

@@ -52,7 +52,7 @@ function replaceInlineMath(parent) {
 	if (!Array.isArray(parent.children)) return;
 
 	const children = [];
-	const inlineMathPattern = /\\\(([\s\S]+?)\\\)|\(([^()]*?(?:\\[A-Za-z]+|[_^{}]|[=<>])[^()]*?)\)/g;
+	const inlineMathPattern = /\\\(([\s\S]+?)\\\)/g;
 
 	for (const child of parent.children) {
 		if (child.type !== 'text') {

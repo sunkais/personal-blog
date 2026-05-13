@@ -1,5 +1,5 @@
 ---
-title: '局部解证明路线：截断、Galerkin 与不动点'
+title: '局部解证明地图：从无权模型到双奇异权'
 description: '从 ODE 到双奇异权：局部解的 Galerkin 逼近、先验估计和爆破判据的完整证明路径。'
 pubDate: '2026-05-12'
 ---
@@ -31,7 +31,7 @@ Galerkin 基函数取 Dirichlet Laplace 算子的特征函数 \( \{w_j\}_{j=1}^\
 取前 \( m \) 个基函数构造近似解 \( u_m(x,t) = \sum_{j=1}^m g_{jm}(t) w_j(x) \)，代入弱形式并取测试函数 \( \eta = w_i \)，得到 ODE 系统：
 
 \[
-(1+\lambda_i) g_{im}'(t) + \lambda_i g_{im}(t) = \Bigl(\bigl|\sum_{j=1}^m g_{jm}(t) w_j\bigr|^{p-2} \sum_{j=1}^m g_{jm}(t) w_j,\; w_i\Bigr)
+(1+\lambda_i) g_{im}'(t) + \lambda_i g_{im}(t) = \bigl(\bigl|\sum_{j=1}^m g_{jm}(t) w_j\bigr|^{p-2} \sum_{j=1}^m g_{jm}(t) w_j,\; w_i\bigr)
 \]
 
 这是无权情形的骨架。双奇异权情形在这个骨架上增加了三步：加权框架的建立、奇异系数的截断、以及加权估计的逐项控制。
@@ -41,7 +41,7 @@ Galerkin 基函数取 Dirichlet Laplace 算子的特征函数 \( \{w_j\}_{j=1}^\
 双奇异权进入后，自然弱形式变成：
 
 \[
-\Bigl(\frac{u_t}{|x|^{s_1}}, \eta\Bigr) + (\nabla u_t, \nabla\eta) + (\nabla u, \nabla\eta) = \Bigl(\frac{|u|^{p-2}u}{|x|^{s_2}}, \eta\Bigr)
+\bigl(|x|^{-s_1}u_t,\eta\bigr) + (\nabla u_t,\nabla\eta) + (\nabla u,\nabla\eta) = \bigl(|x|^{-s_2}|u|^{p-2}u,\eta\bigr)
 \]
 
 这里有三个新困难：
@@ -57,7 +57,7 @@ Galerkin 基函数取 Dirichlet Laplace 算子的特征函数 \( \{w_j\}_{j=1}^\
 由于 \( 1/|x|^{s_i} \) 在原点附近无界，直接处理可能使估计中的常数依赖于解的行为。标准做法是先做水平截断：
 
 \[
-\rho_{s_i,n}(x) = \min\Bigl(\frac{1}{|x|^{s_i}},\; n\Bigr)
+\rho_{s_i,n}(x) = \min\bigl(|x|^{-s_i},\; n\bigr)
 \]
 
 在截断后的方程上构造 Galerkin 近似解 \( u_{m,n} \)（\( m \) 是 Galerkin 维数，\( n \) 是截断参数）。截断后所有系数有界，估计可以向无权情形靠拢。
@@ -70,14 +70,14 @@ Galerkin 基函数取 Dirichlet Laplace 算子的特征函数 \( \{w_j\}_{j=1}^\
 
 **演化项**提供时间耗散：\( \int_\Omega u_{m,n,t}^2 / |x|^{s_1} \ge C \|u_{m,n,t}\|_2^2 \)（由加权范数等价性）。
 
-**拟抛物项**提供梯度耗散：\( \frac{1}{2} \frac{d}{dt} \|\nabla u_{m,n,t}\|_2^2 \)。
+**拟抛物项**提供梯度耗散：\( \frac12 \frac{d}{dt} \|\nabla u_{m,n,t}\|_2^2 \)。
 
-**扩散项**给出能量等式中的势能部分：\( \frac{1}{2} \frac{d}{dt} \|\nabla u_{m,n}\|_2^2 \)。
+**扩散项**给出能量等式中的势能部分：\( \frac12 \frac{d}{dt} \|\nabla u_{m,n}\|_2^2 \)。
 
 **源项**是需要重点控制的：通过 Hardy–Sobolev 不等式
 
 \[
-\int_\Omega \frac{|u|^{p}}{|x|^{s_2}}\,dx \le C \|\nabla u\|_2^p
+\int_\Omega \frac{|u|^p}{|x|^{s_2}}\,dx \le C \|\nabla u\|_2^p
 \]
 
 （这要求 \( s_2 \) 落在参数条件的上界范围内）。源项乘以 \( u_t \) 后的积分通过 Hölder 和 Young 不等式被时间耗散项吸收。
@@ -85,7 +85,7 @@ Galerkin 基函数取 Dirichlet Laplace 算子的特征函数 \( \{w_j\}_{j=1}^\
 综合起来，得到不依赖于 \( m \) 和 \( n \) 的先验估计：
 
 \[
-\|u_{m,n}\|_{L^\infty(0,T; H_0^1)} + \|u_{m,n,t}\|_{L^2(0,T; H_0^1)} \le C(T, \|u_0\|, \mathrm{params})
+\|u_{m,n}\|_{L^\infty(0,T;H_0^1)} + \|u_{m,n,t}\|_{L^2(0,T;H_0^1)} \le C(T,\|u_0\|,\text{params})
 \]
 
 ## 第四步：极限传递与不动点
@@ -98,10 +98,10 @@ Galerkin 基函数取 Dirichlet Laplace 算子的特征函数 \( \{w_j\}_{j=1}^\
 
 ## 第五步：爆破判据
 
-如果解不能延拓到任意大的时间区间，设 \( T_{\max} \) 为最大存在时间。可以证明当 \( T_{\max} < \infty \) 时：
+如果解不能延拓到任意大的时间区间，设 \( T_{\max} \) 为最大存在时间。可以证明当 \( T_{\max} \lt \infty \) 时：
 
 \[
-\limsup_{t \to T_{\max}^-} \Bigl( \|\nabla u(t)\|_2 + \|u(t)\|_{L^r} + \|\nabla u(t)\|_{L^q} \Bigr) = \infty
+\limsup_{t\to T_{\max}^-} \bigl( \|\nabla u(t)\|_2 + \|u(t)\|_{L^r} + \|\nabla u(t)\|_{L^q} \bigr)=\infty
 \]
 
 这意味着解的爆破不是"悄悄地"——在最大存在时间附近，能量和积分量都会发散。
@@ -114,8 +114,15 @@ Galerkin 基函数取 Dirichlet Laplace 算子的特征函数 \( \{w_j\}_{j=1}^\
 |---|---|---|
 | 时间导数项 | \( (u_t, \eta) \) | \( (u_t/|x|^{s_1}, \eta) \)，需加权内积 |
 | 源项控制 | Sobolev 嵌入 | Hardy–Sobolev 不等式 |
-| 能���估计 | 标准 \( L^2 \) 框架 | 加权 \( L^2 \) + 梯度框架 |
+| 能量估计 | 标准 \( L^2 \) 框架 | 加权 \( L^2 \) + 梯度框架 |
 | 截断处理 | 不需要 | 需要水平截断 + 双极限传递 |
 | 紧性工具 | Rellich–Kondrachov | 加权紧嵌入 |
 
 这篇笔记覆盖了局部解证明的主干。具体的引理陈述、不等式选择和推导细节会在后续专题笔记中继续展开。
+
+## 继续阅读
+
+- [拟抛物方程研究框架：从模型到两条证明主线](/blog/double-singular-pseudo-parabolic/) — 全局结构地图
+- [稳态解变分方法：从能量泛函到 Mountain Pass](/blog/mountain-pass-steady-state/) — 变分法的完整展开
+- [Galerkin 方法学习笔记](/blog/galerkin-method-notes/) — 有限维逼近的通用框架
+- [我的硕士论文研究了什么](/blog/my-thesis-research/) — 论文总览
