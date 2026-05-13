@@ -1,30 +1,26 @@
-# 松间笔记 Sunkais Garden
+# SKS Research Lab
 
-sunkais.com 的个人主站。这里记录偏微分方程、硕士论文、AI 工具、个人项目和日常整理。
+异常数学实验室：一个半匿名的静态研究终端，用来整理 PDE 笔记、抽象实验、AI 工作流和项目入口。
 
-## 项目结构
+## Stack
 
-```text
-├── public/
-│   ├── favicon.svg
-│   └── fonts/
-├── src/
-│   ├── components/
-│   ├── content/
-│   │   └── blog/
-│   ├── layouts/
-│   ├── pages/
-│   ├── plugins/
-│   └── styles/
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
+- Astro 6
+- Markdown / MDX content collection
+- remark-math + rehype-katex + KaTeX
+- Static build
 
-## 常用命令
+## Commands
 
 ```sh
-npm run dev
+npm install
 npm run build
 npm run preview
 ```
+
+## Content
+
+- `src/pages`：页面路由
+- `src/content/blog`：研究笔记
+- `src/components`：导航、页头、页脚和公式组件
+- `src/styles/global.css`：全局蓝白电磁抽象风格
+- `public`：公开静态资产

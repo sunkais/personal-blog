@@ -4,129 +4,86 @@ import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
+import { SITE_DESCRIPTION } from '../../consts';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 ---
 
-<!doctype html>
 <html lang="zh-CN">
 	<head>
-		<BaseHead title="笔记集合 | 松间笔记" description="数学、物理、AI 工具与论文写作的个人笔记，持续生长中。" />
+		<BaseHead title="Notes | SKS Research Lab" description={SITE_DESCRIPTION} />
+		<style>
+			.notes-hero {
+				margin-bottom: 2rem;
+				padding: 1.5rem;
+			}
+			.notes-hero h1 {
+				font-size: 3.6rem;
+			}
+			.notes-hero p {
+				max-width: 48rem;
+				color: var(--text-secondary);
+			}
+			.notes-grid {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 1rem;
+			}
+			.note-card {
+				display: flex;
+				flex-direction: column;
+				gap: 0.65rem;
+				min-height: 14rem;
+				padding: 1.2rem;
+				color: var(--text-primary);
+				text-decoration: none;
+			}
+			.note-card p {
+				color: var(--text-muted);
+			}
+			.note-card footer {
+				margin-top: auto;
+				padding: 0;
+				border: 0;
+				background: transparent;
+				color: var(--electric-soft);
+			}
+			@media (max-width: 760px) {
+				.notes-grid { grid-template-columns: 1fr; }
+				.notes-hero h1 { font-size: 2.55rem; }
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
-		<main class="notes-main">
-			<section class="notes-hero">
-				<p class="eyebrow">Notes</p>
-				<h1>笔记集合</h1>
+		<main>
+			<section class="notes-hero hud-card">
+				<p class="eyebrow">LOG-05 / Notes</p>
+				<h1>Research Notes</h1>
 				<p>
-					这里放着正在生长的数学笔记、物理直觉和 AI 工作流记录。它们不是教材，也不是教程——更像是书桌上的草稿本：有完成的片段，有正在推敲的论证，也有随手记下的问题。
+					这里是研究档案的信号流：PDE 笔记、证明路线、AI 工作流和项目实验。
+					文章会尽量保持可读，不展示过度私人的正式信息。
 				</p>
 			</section>
 
-			<section class="note-list" aria-label="全部笔记">
-				{
-					posts.map((post) => (
-						<a class="note-card paper-card" href={`/blog/${post.id}/`}>
-							<div>
-								<p class="note-date">
-									<FormattedDate date={post.data.pubDate} />
-								</p>
-								<h2>{post.data.title}</h2>
-								<p>{post.data.description}</p>
-							</div>
-							<span>阅读全文</span>
-						</a>
-					))
-				}
+			<section class="notes-grid" aria-label="笔记列表">
+				{posts.map((post) => (
+					<a class="note-card hud-card" href={`/blog/${post.id}/`}>
+						<div class="tag-row">
+							<span class="tag">STATUS: ACTIVE</span>
+							<span class="tag">NOISE: LOW</span>
+						</div>
+						<h2>{post.data.title}</h2>
+						<p>{post.data.description}</p>
+						<footer class="meta-code">
+							<FormattedDate date={post.data.pubDate} /> / OPEN
+						</footer>
+					</a>
+				))}
 			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
-<style>
-	.notes-main {
-		width: min(920px, calc(100% - 2rem));
-	}
-
-	.notes-hero {
-		max-width: 42rem;
-		margin-bottom: 2rem;
-	}
-
-	.notes-hero h1 {
-		font-family: Georgia, "Times New Roman", serif;
-		font-size: 3.8rem;
-	}
-
-	.notes-hero p:not(.eyebrow) {
-		color: var(--muted);
-	}
-
-	.note-list {
-		display: grid;
-		gap: 1rem;
-	}
-
-	.note-card {
-		display: flex;
-		align-items: flex-end;
-		justify-content: space-between;
-		gap: 1.5rem;
-		padding: 1.2rem;
-		color: var(--ink);
-		text-decoration: none;
-		transition:
-			transform 160ms ease,
-			border-color 160ms ease,
-			box-shadow 160ms ease;
-	}
-
-	.note-card:hover {
-		border-color: var(--leaf);
-		box-shadow: var(--shadow);
-		color: var(--ink);
-		transform: translateY(-2px);
-	}
-
-	.note-date {
-		margin-bottom: 0.35rem;
-		color: var(--soft-muted);
-		font-size: 0.92rem;
-	}
-
-	.note-card h2 {
-		margin-bottom: 0.45rem;
-		font-size: 1.35rem;
-	}
-
-	.note-card p {
-		margin-bottom: 0;
-		color: var(--muted);
-	}
-
-	.note-card span {
-		flex: 0 0 auto;
-		color: var(--leaf-dark);
-		font-size: 0.9rem;
-		font-weight: 700;
-	}
-
-	@media (max-width: 720px) {
-		.notes-main {
-			width: min(100% - 1.25rem, 920px);
-		}
-
-		.notes-hero h1 {
-			font-size: 3rem;
-		}
-
-		.note-card {
-			align-items: flex-start;
-			flex-direction: column;
-			gap: 1rem;
-		}
-	}
-</style>

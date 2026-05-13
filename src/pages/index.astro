@@ -1,450 +1,394 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import Formula from '../components/Formula.astro';
-import { NEXUS_URL, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import { getCollection } from 'astro:content';
+import Header from '../components/Header.astro';
+import { NEXUS_URL, SITE_DESCRIPTION, SITE_SUBTITLE, SITE_TITLE } from '../consts';
 
-const notes = (await getCollection('blog'))
+const posts = (await getCollection('blog'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 4);
+	.slice(0, 5);
+const randomNote = posts.length ? posts[new Date().getDate() % posts.length] : undefined;
+const todaySignalMath = String.raw`-\Delta u=|x|^{-s_2}|u|^{p-2}u.`;
 
-const archives = [
-	{ id: 'EXP-2026-PPDE-01', title: '双奇异权拟抛物方程', desc: '局部适定性与稳态解', tags: ['Pseudo-Parabolic', 'Singular Weights', 'Variational'], href: '/blog/double-singular-pseudo-parabolic/', status: 'Active' },
-	{ id: 'EXP-2026-LS-02', title: '局部解证明路线', desc: 'Galerkin · 不动点 · 爆破判据', tags: ['Galerkin', 'Fixed Point', 'Blow-up'], href: '/blog/local-solution-proof/', status: 'Active' },
-	{ id: 'EXP-2026-SS-03', title: 'Mountain Pass 稳态解', desc: '能量泛函 · PS条件 · Nehari', tags: ['Mountain Pass', 'PS Condition', 'Nehari'], href: '/blog/mountain-pass-steady-state/', status: 'Active' },
-	{ id: 'EXP-2026-GL-04', title: 'Galerkin 方法', desc: '有限维逼近与极限传递', tags: ['Galerkin', 'Compactness', 'Estimate'], href: '/blog/galerkin-method-notes/', status: 'Active' },
-	{ id: 'EXP-2026-NM-05', title: '数值实验', desc: '可视化 · 参数实例 · 半离散', tags: ['Numerical', 'Visualization', 'Semi-discrete'], href: '/blog/numerical-glimpse/', status: 'Active' },
+const archiveCards = [
+	['ARCHIVE-01', '双奇异权拟抛物方程', '把时间项、扩散项和两个奇异权放在同一个模型里，先确认研究对象的边界。'],
+	['ROUTE-02', '局部解证明路线', '用 Galerkin 近似、截断权函数和能量估计，把无限维问题压成可控信号。'],
+	['CORE-03', 'Mountain Pass 稳态解', '从能量泛函的几何结构出发，寻找山口水平上的非平凡稳态。'],
+	['METHOD-04', 'Galerkin 方法', '选择特征函数基，把抽象空间里的演化方程拆成有限维常微分方程组。'],
+	['SIGNAL-05', '奇异权解释', '原点附近的权重像异常噪声，证明需要同时照顾可积性和边界条件。'],
+	['GLIMPSE-06', '数值实验直观', '不替代证明，只用图像帮助判断能量、扩散和增长项的相互拉扯。'],
 ];
 
-const abilities = [
-	{ name: 'Mathematical Analysis', sub: 'PDE / Variational Methods / Sobolev Spaces', level: 88 },
-	{ name: 'LaTeX & Thesis System', sub: 'Paper Writing / BibTeX / Codex Pipeline', level: 92 },
-	{ name: 'AI-Assisted Research', sub: 'Claude Code / Copilot / Literature Mining', level: 85 },
-	{ name: 'Personal Web Lab', sub: 'Astro / Design / sunkais.com', level: 78 },
-	{ name: 'Mini Game Room', sub: 'Puzzle / Reaction / Coming Soon', level: 60 },
+const labCards = [
+	['WORKFLOW', 'AI 文献整理工作流', '把文献摘要、证明线索和待验证命题拆成可回溯的研究记录。', '/ai'],
+	['TEX-SYS', 'LaTeX 研究系统', '模板、公式、引用和编译流程尽量自动化，减少手工噪声。', '/ai'],
+	['WEB-LAB', '个人网站实验', '这个站点本身也是实验：路由、内容、视觉和隐私边界都在迭代。', '/projects'],
+	['NEXUS-04', 'Nexus 小屋', '一个更生活化的外部节点，保留作品上传和个人空间的入口。', NEXUS_URL],
+	['GAME-05', 'Mini Game Lab', '小游戏与交互原型存放区，让抽象实验偶尔变得可点击。', '/projects'],
 ];
 ---
 
-<!doctype html>
 <html lang="zh-CN">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			.hero-lab {
+				display: grid;
+				grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+				align-items: stretch;
+				gap: 1.2rem;
+				min-height: calc(100vh - 8rem);
+				min-width: 0;
+				padding: 2rem 0 3rem;
+			}
+
+			.hero-copy {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				min-width: 0;
+				padding: 2rem 0;
+			}
+
+			.hero-kicker {
+				display: inline-flex;
+				width: fit-content;
+				margin-bottom: 1.1rem;
+				padding: 0.32rem 0.62rem;
+				border: 1px solid var(--glass-border);
+				border-radius: 999px;
+				background: rgba(15, 23, 42, 0.58);
+			}
+
+			.hero-copy h1 {
+				margin-bottom: 0.55rem;
+				background: linear-gradient(135deg, var(--text-bright) 8%, var(--electric-soft) 52%, var(--violet) 100%);
+				-webkit-background-clip: text;
+				background-clip: text;
+				color: transparent;
+				font-size: 4.7rem;
+				letter-spacing: 0;
+			}
+
+			.hero-subtitle {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.35rem 0.55rem;
+				margin-bottom: 1.35rem;
+				color: var(--electric-soft);
+				font-family: "Courier New", "Consolas", monospace;
+				font-size: 1rem;
+				letter-spacing: 0.08em;
+				overflow-wrap: anywhere;
+				white-space: normal;
+				word-break: break-word;
+			}
+
+			.hero-subtitle span,
+			.lab-tagline span {
+				display: inline-flex;
+				align-items: center;
+			}
+
+			.hero-subtitle span:not(:last-child)::after,
+			.lab-tagline span:not(:last-child)::after {
+				margin-left: 0.55rem;
+				color: var(--text-muted);
+				content: "/";
+			}
+
+			.hero-copy p {
+				max-width: 45rem;
+				color: var(--text-secondary);
+				font-size: 1.08rem;
+				overflow-wrap: anywhere;
+			}
+
+			.lab-tagline {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.35rem 0.55rem;
+			}
+
+			.lab-tagline span:not(:last-child)::after {
+				content: "·";
+			}
+
+			.hero-panel {
+				display: flex;
+				align-items: stretch;
+				justify-content: center;
+				min-width: 0;
+				padding: 1.2rem;
+			}
+
+			.signal-card {
+				display: grid;
+				width: 100%;
+				min-height: 30rem;
+				min-width: 0;
+				padding: 1.2rem;
+				overflow: hidden;
+			}
+
+			.signal-card::after {
+				position: absolute;
+				right: -3rem;
+				bottom: -3rem;
+				width: 16rem;
+				height: 16rem;
+				border: 1px solid rgba(128, 237, 255, 0.18);
+				border-radius: 50%;
+				background: radial-gradient(circle, rgba(76, 201, 240, 0.12), transparent 66%);
+				content: "";
+			}
+
+			.signal-inner {
+				position: relative;
+				z-index: 1;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				gap: 1.2rem;
+			}
+
+			.signal-label {
+				display: flex;
+				justify-content: space-between;
+				gap: 1rem;
+				color: var(--text-muted);
+			}
+
+			.formula-core {
+				margin: 1.4rem 0;
+			}
+
+			.signal-notes {
+				display: grid;
+				gap: 0.58rem;
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+
+			.signal-notes li {
+				display: flex;
+				justify-content: space-between;
+				gap: 1rem;
+				padding: 0.72rem 0;
+				border-bottom: 1px solid var(--glass-border-soft);
+				color: var(--text-secondary);
+			}
+
+			.signal-notes span:first-child {
+				color: var(--electric-soft);
+				font-family: "Courier New", "Consolas", monospace;
+				font-size: 0.78rem;
+				letter-spacing: 0.12em;
+			}
+
+			.lab-section {
+				margin-top: 3rem;
+			}
+
+			.archive-grid {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 1rem;
+			}
+
+			.archive-grid .hud-card,
+			.lab-grid .hud-card {
+				display: flex;
+				flex-direction: column;
+				gap: 0.55rem;
+				min-height: 12rem;
+			}
+
+			.archive-grid h3,
+			.lab-grid h3 {
+				font-size: 1.13rem;
+			}
+
+			.archive-grid p,
+			.lab-grid p {
+				color: var(--text-muted);
+				font-size: 0.96rem;
+			}
+
+			.lab-grid {
+				display: grid;
+				grid-template-columns: repeat(5, minmax(0, 1fr));
+				gap: 1rem;
+			}
+
+			.record-arrow {
+				color: var(--electric-soft);
+				font-family: "Courier New", "Consolas", monospace;
+			}
+
+			@media (max-width: 980px) {
+				.hero-lab {
+					grid-template-columns: 1fr;
+					min-height: auto;
+					padding-top: 1rem;
+				}
+				.hero-panel { padding: 0; }
+				.hero-copy h1 { font-size: 3.2rem; }
+				.archive-grid,
+				.lab-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+			}
+
+			@media (max-width: 640px) {
+				.hero-copy { padding: 0.5rem 0 1rem; }
+				.hero-copy h1 { font-size: 2.35rem; }
+				.hero-subtitle { font-size: 0.86rem; }
+				.hero-copy .status-line {
+					white-space: normal;
+					word-break: break-all;
+					overflow-wrap: anywhere;
+				}
+				.hero-copy p {
+					font-size: 1rem;
+					word-break: break-all;
+				}
+				.hero-copy .button-row {
+					display: grid;
+					grid-template-columns: 1fr;
+				}
+				.hero-copy .button {
+					width: 100%;
+				}
+				.signal-card { min-height: auto; }
+				.signal-label {
+					flex-direction: column;
+					gap: 0.25rem;
+				}
+				.archive-grid,
+				.lab-grid { grid-template-columns: 1fr; }
+				.signal-notes li {
+					flex-direction: column;
+					gap: 0.15rem;
+				}
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
-		<main class="home-main">
-			<!-- Hero: 终端启动区 -->
-			<section class="hero">
+		<main>
+			<section class="hero-lab">
 				<div class="hero-copy">
-					<div class="terminal-line">
-						<span class="prompt">&gt;</span> <span class="cmd">whoami</span>
+					<div class="hero-kicker meta-code">SIGNAL-00 / 入口信号</div>
+					<h1>SKS Research Lab</h1>
+					<div class="hero-subtitle">
+						<span>异常数学实验室</span>
+						<span>PDE Notes</span>
+						<span>AI Workflow</span>
+						<span>Mini Lab</span>
 					</div>
-					<h1>孙开松<span class="cursor">_</span></h1>
-					<p class="hero-subtitle">SKS Research Terminal</p>
-					<p class="hero-lead">双奇异权拟抛物方程 · 数学笔记 · 个人实验室</p>
-					<p class="hero-motto">以数学为轨道，把混乱的灵感发射出去。</p>
+					<p>
+						这里不是简历站，也不是论文下载站。
+						这里是一个半匿名数学研究终端：存放拟抛物方程、奇异项、Galerkin、Mountain Pass、AI 工作流和一些抽象实验。
+					</p>
+					<div class="status-line lab-tagline">
+						<span>数学笔记</span>
+						<span>抽象实验</span>
+						<span>PDE 档案</span>
+						<span>AI 工作流</span>
+					</div>
 					<div class="button-row">
-						<a class="button primary" href="/thesis">▶ 进入论文档案</a>
-						<a class="button" href="/blog">▶ 查看研究笔记</a>
-						<a class="button" href="/projects">▶ 项目实验室</a>
-						<a class="button" href="/about">▶ 研究者档案</a>
+						<a class="button primary" href="/thesis">进入研究档案</a>
+						<a class="button" href="/thesis#equation-core">查看公式核心</a>
+						<a class="button" href={NEXUS_URL} target="_blank" rel="noreferrer">打开 Nexus</a>
+						{randomNote && <a class="button" href={`/blog/${randomNote.id}/`}>随机进入一条笔记</a>}
 					</div>
 				</div>
 
-				<aside class="researcher-card paper-card" aria-label="研究者档案">
-					<div class="researcher-header">
-						<div class="avatar-ring">
-							<img class="avatar-img" src="/avatar.jpg" alt="Sun Kaisong" loading="eager" />
+				<div class="hero-panel">
+					<aside class="signal-card" aria-label="今日信号卡片">
+						<div class="signal-inner">
+							<div>
+								<div class="signal-label">
+									<span class="meta-code">FORMULA-02 / 公式核心</span>
+									<span class="meta-code">NOISE: LOW</span>
+								</div>
+								<h2>今日信号</h2>
+								<div class="formula-panel formula-core">
+									<Formula math={todaySignalMath} displayMode={true} />
+								</div>
+							</div>
+							<ul class="signal-notes">
+								<li><span>STATUS</span><strong>STABLE</strong></li>
+								<li><span>TYPE</span><strong>STEADY_STATE</strong></li>
+								<li><span>NOTE</span><strong>时间导数已关闭，山路仍在。</strong></li>
+							</ul>
 						</div>
-						<div class="researcher-meta">
-							<p class="researcher-name">Sun Kaisong</p>
-							<p class="researcher-role">Mathematical Researcher</p>
-						</div>
-					</div>
-					<div class="researcher-stats">
-						<div class="stat-row"><span class="stat-label">Field</span><span class="stat-val">PDE / Variational Methods</span></div>
-						<div class="stat-row"><span class="stat-label">Focus</span><span class="stat-val">Pseudo-Parabolic Equations</span></div>
-						<div class="stat-row"><span class="stat-label">Status</span><span class="stat-val live">Preparing for Defense</span></div>
-					</div>
-				</aside>
+					</aside>
+				</div>
 			</section>
 
-			<!-- 论文档案区 -->
-			<section class="archive-section" aria-labelledby="archive-title">
-				<div class="section-heading">
-					<p class="eyebrow">Research Archive</p>
-					<h2 id="archive-title">论文档案</h2>
+			<section class="lab-section" aria-labelledby="archive-title">
+				<div class="section-header">
+					<div>
+						<p class="eyebrow">ARCHIVE-01 / 研究档案</p>
+						<h2 id="archive-title">异常数学档案</h2>
+					</div>
+					<p>不要下载成稿，这里只泄露思路。把证明路线拆成可读信号，再慢慢接回严谨的数学语言。</p>
 				</div>
 				<div class="archive-grid">
-					{archives.map((a) => (
-						<a class="archive-card paper-card" href={a.href}>
-							<div class="archive-head">
-								<span class="archive-id">{a.id}</span>
-								<span class="archive-status">{a.status}</span>
-							</div>
-							<h3>{a.title}</h3>
-							<p>{a.desc}</p>
-							<div class="archive-tags">
-								{a.tags.map((t) => <span class="tag">{t}</span>)}
-							</div>
+					{archiveCards.map(([code, title, text]) => (
+						<a class="hud-card" href="/thesis">
+							<span class="meta-code">{code}</span>
+							<h3>{title}</h3>
+							<p>{text}</p>
 						</a>
 					))}
 				</div>
 			</section>
 
-			<!-- 能力开发区 -->
-			<section class="abilities-section" aria-labelledby="abilities-title">
-				<div class="section-heading">
-					<p class="eyebrow">Ability Development</p>
-					<h2 id="abilities-title">能力树</h2>
+			<section class="lab-section" aria-labelledby="lab-title">
+				<div class="section-header">
+					<div>
+						<p class="eyebrow">CHAOS-03 / 抽象实验</p>
+						<h2 id="lab-title">蓝白实验区</h2>
+					</div>
+					<p>AI、LaTeX、个人网站和小游戏都放在这里。公式稳定，精神状态未知。</p>
 				</div>
-				<div class="abilities-grid">
-					{abilities.map((ab) => (
-						<div class="ability-card paper-card">
-							<div class="ability-head">
-								<h3>{ab.name}</h3>
-								<span class="ability-lv">Lv.{ab.level}</span>
-							</div>
-							<p>{ab.sub}</p>
-							<div class="ability-bar-track">
-								<div class="ability-bar-fill" style={`width:${ab.level}%`}></div>
-							</div>
-						</div>
+				<div class="lab-grid">
+					{labCards.map(([code, title, text, href]) => (
+						<a class="hud-card" href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noreferrer' : undefined}>
+							<span class="meta-code">{code}</span>
+							<h3>{title}</h3>
+							<p>{text}</p>
+						</a>
 					))}
 				</div>
 			</section>
 
-			<!-- 最近研究笔记 -->
-			<section class="recent-notes" aria-labelledby="notes-title">
-				<div class="section-heading">
-					<p class="eyebrow">Recent Logs</p>
-					<h2 id="notes-title">最近笔记</h2>
+			<section class="lab-section" aria-labelledby="records-title">
+				<div class="section-header">
+					<div>
+						<p class="eyebrow">LOG-05 / 最近记录</p>
+						<h2 id="records-title">研究信号流</h2>
+					</div>
+					<p>最近五条笔记优先展示研究对象、证明路线和工作流，不展示过度私人的履历信息。</p>
 				</div>
-				<div class="note-strip">
-					{notes.map((note) => (
-						<a class="note-link paper-card" href={`/blog/${note.id}/`}>
-							<span>{note.data.title}</span>
-							<small>{note.data.description}</small>
-						</a>
+				<ul class="record-list">
+					{posts.map((post) => (
+						<li>
+							<a class="record-link" href={`/blog/${post.id}/`}>
+								<span class="meta-code"><FormattedDate date={post.data.pubDate} /></span>
+								<span>{post.data.title}</span>
+								<span class="record-arrow">OPEN</span>
+							</a>
+						</li>
 					))}
-				</div>
+				</ul>
 			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
-<style>
-	.home-main { padding-top: 3.5rem; }
-
-	/* ===== Hero ===== */
-	.hero {
-		display: grid;
-		grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.7fr);
-		align-items: start;
-		gap: 3rem;
-		min-height: 62vh;
-		padding: 2rem 0 4rem;
-	}
-
-	.terminal-line {
-		font-family: "Courier New", "Consolas", monospace;
-		color: var(--electric);
-		font-size: 1.1rem;
-		margin-bottom: 0.6rem;
-		letter-spacing: 0.04em;
-	}
-	.prompt { color: var(--electric); }
-	.cmd { color: var(--text-bright); }
-
-	.hero h1 {
-		font-size: 5rem;
-		margin-bottom: 0.3rem;
-		background: linear-gradient(135deg, var(--electric-soft) 0%, var(--text-bright) 55%, var(--violet) 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-	}
-	.cursor {
-		animation: blink 1s step-end infinite;
-		color: var(--electric);
-		-webkit-text-fill-color: var(--electric);
-	}
-	@keyframes blink { 50% { opacity: 0; } }
-
-	.hero-subtitle {
-		font-family: "Courier New", "Consolas", monospace;
-		color: var(--electric);
-		font-size: 1rem;
-		font-weight: 700;
-		letter-spacing: 0.12em;
-		margin-bottom: 0.8rem;
-	}
-
-	.hero-lead {
-		max-width: 36rem;
-		color: var(--text-secondary);
-		font-size: 1.2rem;
-		font-weight: 700;
-		line-height: 1.6;
-		margin-bottom: 0.6rem;
-	}
-
-	.hero-motto {
-		max-width: 36rem;
-		color: var(--text-muted);
-		font-style: italic;
-		margin-bottom: 1.5rem;
-	}
-
-	/* ===== 研究者档案卡片 ===== */
-	.researcher-card {
-		padding: 1.5rem;
-	}
-
-	.researcher-header {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-		margin-bottom: 1.2rem;
-		padding-bottom: 1rem;
-		border-bottom: 1px solid var(--line-soft);
-	}
-
-	.avatar-ring {
-		flex-shrink: 0;
-		width: 64px; height: 64px;
-		border-radius: 50%;
-		padding: 2px;
-		background: conic-gradient(var(--electric), var(--violet), var(--electric));
-	}
-	.avatar-img {
-		width: 100%; height: 100%;
-		border-radius: 50%;
-		object-fit: cover;
-		display: block;
-	}
-
-	.researcher-name {
-		font-family: "Courier New", "Consolas", monospace;
-		font-weight: 700;
-		color: var(--text-bright);
-		font-size: 1.08rem;
-		margin: 0;
-		letter-spacing: 0.04em;
-	}
-	.researcher-role {
-		color: var(--electric);
-		font-size: 0.82rem;
-		margin: 0.15rem 0 0;
-		letter-spacing: 0.06em;
-	}
-
-	.researcher-stats { display: grid; gap: 0.55rem; }
-	.stat-row {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		gap: 0.5rem;
-		font-size: 0.85rem;
-	}
-	.stat-label {
-		color: var(--text-muted);
-		font-size: 0.76rem;
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		flex-shrink: 0;
-	}
-	.stat-val {
-		color: var(--text-secondary);
-		text-align: right;
-	}
-	.stat-val.live {
-		color: var(--electric-soft);
-		position: relative;
-		padding-left: 0.8rem;
-	}
-	.stat-val.live::before {
-		content: "";
-		position: absolute;
-		left: 0; top: 50%;
-		transform: translateY(-50%);
-		width: 6px; height: 6px;
-		border-radius: 50%;
-		background: var(--electric);
-		animation: pulse-dot 2s ease infinite;
-	}
-	@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-	/* ===== Section 通用 ===== */
-	.archive-section, .abilities-section, .recent-notes { padding: 4rem 0 0; }
-	.section-heading { max-width: 38rem; margin-bottom: 1.5rem; }
-	.section-heading h2 {
-		margin-bottom: 0.35rem;
-		font-family: "Courier New", "Consolas", monospace;
-		letter-spacing: 0.04em;
-	}
-
-	/* ===== 档案卡片 ===== */
-	.archive-grid {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1rem;
-	}
-
-	.archive-card {
-		padding: 1.2rem;
-		color: var(--text-primary);
-		text-decoration: none;
-		display: grid;
-		gap: 0.5rem;
-	}
-	.archive-card:hover { color: var(--text-primary); }
-
-	.archive-head {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		gap: 0.5rem;
-	}
-	.archive-id {
-		font-family: "Courier New", "Consolas", monospace;
-		font-size: 0.72rem;
-		color: var(--electric);
-		letter-spacing: 0.04em;
-	}
-	.archive-status {
-		font-size: 0.68rem;
-		font-weight: 700;
-		color: var(--electric-soft);
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		padding: 0.1rem 0.4rem;
-		border: 1px solid var(--glass-border);
-		border-radius: 3px;
-	}
-
-	.archive-card h3 {
-		font-size: 1.05rem;
-		margin: 0;
-		color: var(--text-bright);
-	}
-	.archive-card p {
-		font-size: 0.88rem;
-		color: var(--text-secondary);
-		margin: 0;
-		line-height: 1.55;
-	}
-
-	.archive-tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.35rem;
-		padding-top: 0.3rem;
-	}
-	.tag {
-		padding: 0.12rem 0.45rem;
-		border: 1px solid var(--glass-border);
-		border-radius: 3px;
-		font-size: 0.7rem;
-		color: var(--text-muted);
-		letter-spacing: 0.04em;
-	}
-
-	/* ===== 能力卡片 ===== */
-	.abilities-grid {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1rem;
-	}
-
-	.ability-card {
-		padding: 1.2rem;
-	}
-
-	.ability-head {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		gap: 0.5rem;
-		margin-bottom: 0.4rem;
-	}
-	.ability-head h3 {
-		font-size: 0.98rem;
-		margin: 0;
-		color: var(--text-bright);
-	}
-	.ability-lv {
-		font-family: "Courier New", "Consolas", monospace;
-		font-size: 0.78rem;
-		font-weight: 700;
-		color: var(--electric);
-		flex-shrink: 0;
-	}
-
-	.ability-card p {
-		font-size: 0.85rem;
-		color: var(--text-secondary);
-		margin: 0 0 0.7rem;
-		line-height: 1.5;
-	}
-
-	.ability-bar-track {
-		height: 4px;
-		border-radius: 2px;
-		background: rgba(125,211,252,0.12);
-		overflow: hidden;
-	}
-	.ability-bar-fill {
-		height: 100%;
-		border-radius: 2px;
-		background: linear-gradient(90deg, var(--electric-dim), var(--electric), var(--electric-soft));
-		transition: width 800ms ease;
-	}
-
-	/* ===== 最近笔记 ===== */
-	.note-strip {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.75rem;
-	}
-
-	.note-link {
-		display: grid;
-		gap: 0.4rem;
-		padding: 1rem 1.2rem;
-		color: var(--text-primary);
-		text-decoration: none;
-	}
-	.note-link span {
-		font-weight: 700;
-		font-size: 0.98rem;
-	}
-	.note-link small {
-		color: var(--text-secondary);
-		font-size: 0.86rem;
-		line-height: 1.5;
-	}
-	.note-link:hover span { color: var(--electric-soft); }
-
-	/* ===== 响应式 ===== */
-	@media (max-width: 980px) {
-		.hero {
-			grid-template-columns: 1fr;
-			min-height: auto;
-		}
-		.hero h1 { font-size: 3.8rem; }
-		.archive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-		.abilities-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-		.note-strip { grid-template-columns: 1fr; }
-	}
-
-	@media (max-width: 620px) {
-		.home-main { padding-top: 2rem; }
-		.hero { gap: 2rem; padding-bottom: 2.5rem; }
-		.hero h1 { font-size: 2.8rem; }
-		.hero-lead { font-size: 1.05rem; }
-		.archive-grid, .abilities-grid { grid-template-columns: 1fr; }
-	}
-</style>

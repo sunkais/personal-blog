@@ -2,164 +2,64 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION } from '../consts';
+
+const echoes = [
+	['HEAT', '扩散直觉', '热方程提供最干净的扩散图像：局部差异会随时间被平滑。'],
+	['WAVE', '传播直觉', '波动模型提醒我们能量也可能以传播和振动的方式出现。'],
+	['PSEUDO', '拟抛物结构', '时间项和空间导数耦合后，演化过程带上了非标准记忆感。'],
+	['WEIGHT', '非均匀介质', '奇异权可以被看作一种抽象的空间不均匀信号。'],
+];
 ---
 
-<!doctype html>
 <html lang="zh-CN">
 	<head>
-		<BaseHead title="物理回声 | 松间笔记" description="从热方程、波方程到拟抛物方程，整理方程背后的物理直觉与模型来源。" />
+		<BaseHead title="Signal Echo | SKS Research Lab" description={SITE_DESCRIPTION} />
+		<style>
+			.echo-hero {
+				margin-bottom: 2rem;
+				padding: 1.5rem;
+			}
+			.echo-hero h1 { font-size: 3.4rem; }
+			.echo-hero p { max-width: 48rem; color: var(--text-secondary); }
+			.echo-grid {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 1rem;
+			}
+			.echo-card {
+				min-height: 11rem;
+				padding: 1.2rem;
+			}
+			.echo-card p { color: var(--text-muted); }
+			@media (max-width: 760px) {
+				.echo-grid { grid-template-columns: 1fr; }
+				.echo-hero h1 { font-size: 2.55rem; }
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
-		<main class="page-main">
-			<section class="page-hero paper-card">
-				<p class="eyebrow">Physics Echoes</p>
-				<h1>物理回声</h1>
-				<p class="page-lead">
-					这里不写严格物理理论，而是整理数学方程背后的物理直觉、模型来源和类比。搞清楚方程"从哪来"，往往比直接进入估计技巧更能帮助理解证明方向。
+		<main>
+			<section class="echo-hero hud-card">
+				<p class="eyebrow">SIGNAL ECHO / 物理直觉</p>
+				<h1>Signal Echo</h1>
+				<p>
+					这里不写严格物理理论，只保留帮助理解 PDE 的模型直觉：
+					扩散、传播、记忆项和空间非均匀性。
 				</p>
 			</section>
 
-			<section class="topic-grid">
-				<article class="topic-card paper-card">
-					<h2>热方程</h2>
-					<p>
-						热方程是最经典的抛物型方程：<code>u_t − Δu = f</code>。它的物理图像是扩散和平滑化——局部的温度差会随时间被抹平，能量在空间上重新分配。
-					</p>
-					<p>
-						从数学角度看，热方程是理解抛物型方程的基础入口：解的正则化效应、最大模估计、能量耗散和长时间行为，都在这里先以比较干净的形式出现。
-					</p>
-				</article>
-
-				<article class="topic-card paper-card">
-					<h2>波方程</h2>
-					<p>
-						波方程 <code>u{'{'}tt{'}'} − Δu = f</code> 描述传播和振动，是二阶演化方程的典型代表。它保持能量守恒（而非耗散），信号以有限速度传播。
-					</p>
-					<p>
-						对于拟抛物方程的研究，波方程提供了一种重要的参照：它展示了当方程结构从抛物型转向含二阶时间导数时，会发生什么变化。很多能量方法的对比都建立在"扩散 vs 传播"的直觉之上。
-					</p>
-				</article>
-
-				<article class="topic-card paper-card">
-					<h2>拟抛物方程</h2>
-					<p>
-						拟抛物方程介于扩散和波动之间，带有一种非标准的记忆效应。它的典型结构包含混合的时间-空间导数项，使得演化不再纯粹是抛物型的平滑扩散，也不完全是双曲型的波动传播。
-					</p>
-					<p>
-						在物理上，这类方程常出现于渗流理论、非均匀介质中的热传导、聚集扩散和黏弹性材料等模型。它不是一个人造的数学玩具，而是一类真实存在的、需要专门处理的演化结构。
-					</p>
-				</article>
-
-				<article class="topic-card paper-card">
-					<h2>奇异项与介质不均匀性</h2>
-					<p>
-						奇异权重 <code>|x|{'{'}-s{'}'}</code> 可以被理解为空间非均匀性的一种数学抽象：源项的强度在空间中集中，或者介质的某些性质在特定位置退化或增强。
-					</p>
-					<p>
-						在物理模型中，这种不均匀性可能对应于点状热源、材料缺陷附近的应力集中，或某些边界层效应。数学上，它迫使我们去面对加权 Sobolev 空间和 Hardy 型不等式。
-					</p>
-				</article>
-
-				<article class="topic-card paper-card">
-					<h2>从物理直觉回到数学证明</h2>
-					<p>
-						物理图像帮助我们理解问题的来源和方程中各项的意义，但最终仍需要函数空间、先验估计和紧性工具来建立严格论证。直觉提供方向，证明提供落地的路。
-					</p>
-					<p>
-						好的数学研究往往在这两者之间反复往返：用物理直觉提出猜测，用数学工具检验和约束这些猜测，再回到物理含义中去解释结果。
-					</p>
-				</article>
-			</section>
-
-			<section class="back-note">
-				<p>更多细节见 <a href="/math">数学一隅</a> 和 <a href="/blog">笔记集合</a>。</p>
+			<section class="echo-grid" aria-label="物理直觉">
+				{echoes.map(([code, title, text]) => (
+					<article class="echo-card hud-card">
+						<span class="meta-code">{code}</span>
+						<h2>{title}</h2>
+						<p>{text}</p>
+					</article>
+				))}
 			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
-<style>
-	.page-main {
-		padding-top: 4rem;
-	}
-
-	.page-hero {
-		padding: 2rem;
-		margin-bottom: 2.5rem;
-	}
-
-	.page-hero h1 {
-		font-family: Georgia, "Times New Roman", serif;
-		font-size: 3.5rem;
-		margin-bottom: 1rem;
-	}
-
-	.page-lead {
-		max-width: 42rem;
-		color: var(--muted);
-		font-size: 1.08rem;
-		line-height: 1.7;
-		margin-bottom: 0;
-	}
-
-	.topic-grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1.25rem;
-	}
-
-	.topic-card {
-		padding: 1.5rem;
-	}
-
-	.topic-card h2 {
-		font-size: 1.25rem;
-		margin-bottom: 0.8rem;
-		color: var(--leaf-dark);
-	}
-
-	.topic-card p {
-		margin-bottom: 0.6rem;
-		color: var(--muted);
-		font-size: 0.96rem;
-		line-height: 1.7;
-	}
-
-	.topic-card p:last-child {
-		margin-bottom: 0;
-	}
-
-	.topic-card code {
-		font-size: 0.88em;
-	}
-
-	.back-note {
-		padding-top: 3rem;
-		text-align: center;
-		color: var(--soft-muted);
-		font-size: 0.94rem;
-	}
-
-	.back-note a {
-		color: var(--leaf-dark);
-	}
-
-	@media (max-width: 760px) {
-		.page-main {
-			padding-top: 2rem;
-		}
-
-		.page-hero {
-			padding: 1.25rem;
-		}
-
-		.page-hero h1 {
-			font-size: 2.6rem;
-		}
-
-		.topic-grid {
-			grid-template-columns: 1fr;
-		}
-	}
-</style>

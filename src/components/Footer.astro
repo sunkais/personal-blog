@@ -1,23 +1,22 @@
 ---
-import { NEXUS_URL } from '../consts';
-const today = new Date();
+import { NEXUS_URL, SITE_NAME_EN } from '../consts';
 ---
 
 <footer>
 	<div class="footer-inner">
 		<div class="footer-info">
-			<p class="footer-brand">SKS Research Terminal</p>
-			<p>&copy; {today.getFullYear()} 孙开松。电磁研究档案 · 学园都市。</p>
+			<p class="footer-brand">{SITE_NAME_EN}</p>
+			<p>&copy; 2026 SKS · Research Lab</p>
 		</div>
 		<div class="footer-links">
-			<a href="/blog">研究笔记</a>
-			<a href="/thesis">论文档案</a>
-			<a href="/math">数学</a>
-			<a href="/physics">物理</a>
-			<a href="/ai">AI 手札</a>
+			<a href="/">Lab</a>
+			<a href="/thesis">Archive</a>
+			<a href="/blog">Notes</a>
+			<a href="/math">Formula Lab</a>
+			<a href="/ai">AI Workflow</a>
 			<a href="/projects">项目</a>
-			<a href="/about">档案</a>
-			<a href={NEXUS_URL} target="_blank" rel="noreferrer">Nexus ↗</a>
+			<a href="/about">关于</a>
+			<a href={NEXUS_URL} target="_blank" rel="noreferrer">Nexus Node ↗</a>
 		</div>
 	</div>
 </footer>

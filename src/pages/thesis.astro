@@ -1,315 +1,238 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
 import Formula from '../components/Formula.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION } from '../consts';
+
+const modules = [
+	['Equation Core', '主方程', '拟抛物结构、时间导数扩散和源项在这里汇合，是整条档案的起点。'],
+	['Double Singularity', '双奇异结构', '两个权函数分别作用在时间项和非线性项上，靠近原点时会放大估计难度。'],
+	['Local Solution Route', '局部解路线', 'Galerkin 近似、截断、紧性和能量控制组成一条可验证路线。'],
+	['Steady State Route', '稳态解路线', '关闭时间导数后，问题进入变分框架，用 Mountain Pass 寻找非平凡解。'],
+	['Numerical Glimpse', '数值直观', '图像只负责给直觉供电，不替代证明。'],
+	['Glossary Node', '术语节点', '把 Sobolev 空间、Nehari 流形、弱形式等关键词压缩成可复查短条目。'],
+];
+
+const mainEquation = String.raw`\begin{cases}
+|x|^{-s_1}u_t-\Delta u_t-\Delta u
+=
+|x|^{-s_2}|u|^{p-2}u,
+& (x,t)\in \Omega\times(0,T),\\
+u(x,0)=u_0(x),
+& x\in\Omega,\\
+u(x,t)=0,
+& (x,t)\in\partial\Omega\times(0,T).
+\end{cases}`;
+
+const parameterCondition = String.raw`0\le s_1\le 2,\qquad
+2N+p-pN\le s_2\le N+p-\frac12pN,\qquad
+2<p\le \frac{2N}{N-1}.`;
+
+const steadyEquation = String.raw`\begin{cases}
+-\Delta u=|x|^{-s_2}|u|^{p-2}u,
+& x\in\Omega,\\
+u=0,
+& x\in\partial\Omega.
+\end{cases}`;
 ---
 
-<!doctype html>
 <html lang="zh-CN">
 	<head>
-		<BaseHead title="论文档案 | SKS Research Terminal" description="研究档案：具双奇性的拟抛物方程的局部适定性与稳态解。这里不提供 PDF 下载，而是把论文拆成可阅读的研究档案。" />
+		<BaseHead title="Research Archive | SKS Research Lab" description={SITE_DESCRIPTION} />
+		<style>
+			.archive-hero {
+				display: grid;
+				grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
+				gap: 1rem;
+				margin-bottom: 2.5rem;
+			}
+
+			.archive-hero .hud-card {
+				padding: 1.4rem;
+			}
+
+			.archive-hero h1 {
+				margin-bottom: 0.25rem;
+				font-size: 3.8rem;
+			}
+
+			.archive-hero h2 {
+				margin-bottom: 1.2rem;
+				color: var(--electric-soft);
+				font-family: "Courier New", "Consolas", monospace;
+				font-size: 1.05rem;
+				letter-spacing: 0.08em;
+			}
+
+			.archive-hero p,
+			.module-card p {
+				color: var(--text-secondary);
+			}
+
+			.archive-meta {
+				display: grid;
+				gap: 0.65rem;
+			}
+
+			.archive-meta div {
+				display: flex;
+				justify-content: space-between;
+				gap: 1rem;
+				padding-bottom: 0.55rem;
+				border-bottom: 1px solid var(--glass-border-soft);
+			}
+
+			.archive-meta span:first-child {
+				color: var(--electric-soft);
+				font-family: "Courier New", "Consolas", monospace;
+				font-size: 0.78rem;
+				letter-spacing: 0.12em;
+			}
+
+			.module-grid {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 1rem;
+				margin-bottom: 2.5rem;
+			}
+
+			.module-card {
+				padding: 1.15rem;
+			}
+
+			.module-card h3 {
+				margin-bottom: 0.25rem;
+			}
+
+			.equation-stack {
+				display: grid;
+				gap: 1rem;
+			}
+
+			.equation-block {
+				padding: 1.25rem;
+			}
+
+			.equation-block p {
+				color: var(--text-muted);
+			}
+
+			.route-grid {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 1rem;
+				margin-top: 1rem;
+			}
+
+			.route-grid .hud-card {
+				padding: 1.15rem;
+			}
+
+			@media (max-width: 860px) {
+				.archive-hero,
+				.module-grid,
+				.route-grid {
+					grid-template-columns: 1fr;
+				}
+				.archive-hero h1 { font-size: 2.7rem; }
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
-		<main class="page-main">
-			<section class="page-hero">
-				<div class="terminal-line"><span class="prompt">&gt;</span> <span class="cmd">cat /archive/thesis/README.md</span></div>
-				<h1>论文档案</h1>
-				<p class="page-lead">
-					这里不提供完整论文 PDF 下载，而是把论文拆成可阅读的研究档案：模型、困难、证明路线、变分结构和数值直观。
-				</p>
+		<main>
+			<section class="archive-hero">
+				<div class="hud-card">
+					<p class="eyebrow">ARCHIVE NODE / PRIVACY LOW</p>
+					<h1>Research Archive</h1>
+					<h2>研究档案</h2>
+					<p>
+						这里不放正式成稿，也不展示正式封面。
+						这里只保留研究思路：模型、困难、证明路线、变分结构和数值直观。
+					</p>
+					<div class="tag-row" aria-label="研究关键词">
+						<span class="tag">PDE</span>
+						<span class="tag">Singular Weights</span>
+						<span class="tag">Galerkin</span>
+						<span class="tag">Mountain Pass</span>
+						<span class="tag hot">NOISE: LOW</span>
+					</div>
+				</div>
+				<aside class="hud-card archive-meta" aria-label="档案状态">
+					<div><span>STATUS</span><strong>ACTIVE</strong></div>
+					<div><span>TYPE</span><strong>PDE_ARCHIVE</strong></div>
+					<div><span>ACCESS</span><strong>NOTES ONLY</strong></div>
+					<div><span>ENERGY</span><strong>STABLE</strong></div>
+				</aside>
 			</section>
 
-			<!-- 主方程档案 -->
-			<section class="archive-block paper-card">
-				<div class="block-header">
-					<span class="block-id">ARCHIVE-001</span>
-					<span class="block-label">Main Equation Core</span>
-				</div>
-				<h2>双奇异权拟抛物方程</h2>
-				<div class="formula-box">
-					<Formula math="\\begin{cases} |x|^{-s_1}u_t-\\Delta u_t-\\Delta u = |x|^{-s_2}|u|^{p-2}u, & (x,t)\\in \\Omega\\times(0,T),\\\\ u(x,0)=u_0(x), & x\\in\\Omega,\\\\ u(x,t)=0, & (x,t)\\in\\partial\\Omega\\times(0,T). \\end{cases}" displayMode={true} />
-				</div>
-				<p class="block-note">演化项和源项各带独立奇异权 <code>|x|<sup>-s<sub>1</sub></sup></code> 和 <code>|x|<sup>-s<sub>2</sub></sup></code>。研究分为两条主线：演化方程的局部适定性，以及稳态方程的非平凡解存在性。</p>
-				<div class="block-tags">
-					<span class="tag">Pseudo-Parabolic</span><span class="tag">Double Singular Weights</span><span class="tag">Hardy-Sobolev</span>
-				</div>
+			<section class="module-grid" aria-label="研究档案模块">
+				{modules.map(([en, cn, text]) => (
+					<article class="module-card hud-card">
+						<span class="meta-code">{en}</span>
+						<h3>{cn}</h3>
+						<p>{text}</p>
+					</article>
+				))}
 			</section>
 
-			<!-- 两条主线 -->
-			<div class="dual-column">
-				<section class="archive-block paper-card">
-					<div class="block-header">
-						<span class="block-id">ROUTE-A</span>
-						<span class="block-label">Local Solution</span>
+			<section id="equation-core" class="equation-stack" aria-labelledby="equation-title">
+				<div class="section-header">
+					<div>
+						<p class="eyebrow">FORMULA-02 / Equation Core</p>
+						<h2 id="equation-title">主方程</h2>
 					</div>
-					<h2>局部解路线</h2>
-					<div class="route-flow">截断 → Galerkin → Hardy-Sobolev → Banach 不动点 → 爆破判据</div>
-					<p>证明初边值问题在某个时间区间内存在唯一弱解，建立最大存在时间有限时的爆破判据。另提供基于抽象算子和半群方法的替代证明。</p>
-					<div class="block-links">
-						<a href="/blog/local-solution-proof/">→ 查看完整档案</a>
-						<a href="/blog/why-galerkin/">→ Galerkin 方法</a>
-					</div>
-				</section>
-
-				<section class="archive-block paper-card">
-					<div class="block-header">
-						<span class="block-id">ROUTE-B</span>
-						<span class="block-label">Steady State</span>
-					</div>
-					<h2>稳态解路线</h2>
-					<div class="route-flow">能量泛函 → Mountain Pass → PS 条件 → Nehari 最小化</div>
-					<p>证明对应椭圆方程存在非平凡弱解。使用变分法和山路定理，再通过 Nehari 流形给出第二条存在性证明。</p>
-					<div class="block-links">
-						<a href="/blog/mountain-pass-steady-state/">→ 查看完整档案</a>
-						<a href="/blog/why-mountain-pass/">→ 山路定理直觉</a>
-					</div>
-				</section>
-			</div>
-
-			<!-- 阅读导航 -->
-			<section class="archive-block paper-card">
-				<div class="block-header">
-					<span class="block-id">NAV-001</span>
-					<span class="block-label">Reading Route</span>
+					<p>把混乱压缩进 Sobolev 空间之前，先把模型写清楚。</p>
 				</div>
-				<h2>从哪里开始读</h2>
-				<div class="nav-grid">
-					<a href="/blog/double-singular-pseudo-parabolic/" class="nav-item">
-						<span class="nav-icon">&#9655;</span>
-						<span class="nav-label">研究框架总览</span>
-						<small>方程全景、参数条件来源、两条主线</small>
-					</a>
-					<a href="/blog/local-solution-proof/" class="nav-item">
-						<span class="nav-icon">&#9655;</span>
-						<span class="nav-label">局部解证明地图</span>
-						<small>Galerkin、不动点与爆破判据</small>
-					</a>
-					<a href="/blog/mountain-pass-steady-state/" class="nav-item">
-						<span class="nav-icon">&#9655;</span>
-						<span class="nav-label">稳态解变分方法</span>
-						<small>Mountain Pass 与 Nehari</small>
-					</a>
-					<a href="/blog/numerical-glimpse/" class="nav-item">
-						<span class="nav-icon">&#9655;</span>
-						<span class="nav-label">数值实验直观</span>
-						<small>参数实例、路径可视化</small>
-					</a>
-					<a href="/blog/singular-weights-physical-picture/" class="nav-item">
-						<span class="nav-icon">&#9655;</span>
-						<span class="nav-label">奇异权物理含义</span>
-						<small>介质非均匀性与源项集中</small>
-					</a>
-				</div>
+
+				<article class="equation-block hud-card">
+					<h3>主方程</h3>
+					<div class="formula-panel">
+						<Formula math={mainEquation} displayMode={true} />
+					</div>
+					<p>两个奇异权分别进入时间项与源项。难点不是只在方程长，而是每一项都需要和函数空间、边界条件、紧性估计对齐。</p>
+				</article>
+
+				<article class="equation-block hud-card">
+					<h3>参数条件</h3>
+					<div class="formula-panel">
+						<Formula math={parameterCondition} displayMode={true} />
+					</div>
+					<p>这些限制让奇异权、非线性增长和 Sobolev 嵌入保持在可估计范围内。</p>
+				</article>
+
+				<article class="equation-block hud-card">
+					<h3>稳态方程</h3>
+					<div class="formula-panel">
+						<Formula math={steadyEquation} displayMode={true} />
+					</div>
+					<p>时间导数关闭后，山路开始出现：能量泛函、路径类和 Nehari 流形会成为主要工具。</p>
+				</article>
 			</section>
 
-			<!-- 核心方法 -->
-			<section class="archive-block paper-card">
-				<div class="block-header">
-					<span class="block-id">METHOD-001</span>
-					<span class="block-label">Core Methods</span>
+			<section class="lab-section" aria-labelledby="route-title">
+				<div class="section-header">
+					<div>
+						<p class="eyebrow">ROUTE MAP / Proof Signal</p>
+						<h2 id="route-title">证明路线</h2>
+					</div>
+					<p>只保留研究路线，不展示正式材料。</p>
 				</div>
-				<h2>三个核心工具</h2>
-				<div class="method-grid">
-					<div class="method-item">
-						<h3>Galerkin 方法</h3>
-						<p>有限维投影 → 与维数无关的估计 → 弱收敛 + 紧性 → 极限传递</p>
-					</div>
-					<div class="method-item">
-						<h3>Mountain Pass</h3>
-						<p>能量泛函构造 → 山路几何 → PS 条件验证 → 非平凡临界点</p>
-					</div>
-					<div class="method-item">
-						<h3>Hardy-Sobolev</h3>
-						<p>加权紧嵌入 → 奇异权积分控制 → 能量估计的封闭性</p>
-					</div>
+				<div class="route-grid">
+					<a class="hud-card" href="/blog/local-solution-proof/">
+						<span class="meta-code">LOCAL_ROUTE</span>
+						<h3>Galerkin：把无限维压成有限维</h3>
+						<p>弱形式、特征函数、截断权函数和局部解能量估计。</p>
+					</a>
+					<a class="hud-card" href="/blog/mountain-pass-steady-state/">
+						<span class="meta-code">STEADY_ROUTE</span>
+						<h3>Mountain Pass：能量地形里的山口</h3>
+						<p>能量泛函、路径类、山口水平和 Nehari 流形。</p>
+					</a>
 				</div>
-			</section>
-
-			<section class="back-note">
-				<p>相关档案：<a href="/math">数学分析室</a> · <a href="/physics">物理直觉室</a> · <a href="/blog">全部研究笔记</a></p>
 			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
-<style>
-	.page-main { padding-top: 3.5rem; }
-
-	.page-hero { margin-bottom: 2.5rem; }
-	.page-hero h1 {
-		font-size: 3.8rem;
-		margin-bottom: 1rem;
-		background: linear-gradient(135deg, var(--electric-soft) 0%, var(--text-bright) 60%, var(--violet) 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-	}
-	.page-lead { max-width: 42rem; color: var(--text-secondary); font-size: 1.08rem; line-height: 1.75; }
-
-	.terminal-line {
-		font-family: "Courier New", "Consolas", monospace;
-		color: var(--electric);
-		font-size: 0.95rem;
-		margin-bottom: 0.6rem;
-		letter-spacing: 0.04em;
-	}
-	.prompt { color: var(--electric); }
-	.cmd { color: var(--text-bright); }
-
-	/* ===== 档案块 ===== */
-	.archive-block {
-		padding: 1.8rem;
-		margin-bottom: 1.5rem;
-	}
-
-	.block-header {
-		display: flex;
-		align-items: center;
-		gap: 0.7rem;
-		margin-bottom: 0.8rem;
-	}
-	.block-id {
-		font-family: "Courier New", "Consolas", monospace;
-		font-size: 0.72rem;
-		color: var(--electric);
-		letter-spacing: 0.06em;
-	}
-	.block-label {
-		font-size: 0.68rem;
-		font-weight: 700;
-		color: var(--text-muted);
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		padding: 0.1rem 0.5rem;
-		border: 1px solid var(--glass-border);
-		border-radius: 3px;
-	}
-
-	.archive-block h2 {
-		font-size: 1.4rem;
-		margin-bottom: 0.8rem;
-		font-family: "Courier New", "Consolas", monospace;
-		letter-spacing: 0.03em;
-		color: var(--text-bright);
-	}
-
-	.archive-block p { color: var(--text-secondary); font-size: 0.96rem; line-height: 1.7; }
-
-	.formula-box {
-		margin: 1rem 0;
-		padding: 1rem 1.2rem;
-		border: 1px solid var(--glass-border);
-		border-radius: 6px;
-		background: rgba(7, 17, 31, 0.6);
-		overflow-x: auto;
-	}
-	.formula-box::before {
-		content: "EQUATION CORE";
-		display: block;
-		font-family: "Courier New", "Consolas", monospace;
-		font-size: 0.66rem;
-		color: var(--electric-dim);
-		letter-spacing: 0.12em;
-		margin-bottom: 0.6rem;
-	}
-
-	.block-note { margin-bottom: 0.8rem !important; }
-	.block-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-
-	.tag {
-		padding: 0.15rem 0.5rem;
-		border: 1px solid var(--glass-border);
-		border-radius: 3px;
-		font-size: 0.72rem;
-		color: var(--text-muted);
-		letter-spacing: 0.04em;
-	}
-
-	/* ===== 双栏路线 ===== */
-	.dual-column {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1.5rem;
-		margin-bottom: 1.5rem;
-	}
-
-	.route-flow {
-		font-family: "Courier New", "Consolas", monospace;
-		font-size: 0.82rem;
-		color: var(--electric);
-		margin-bottom: 0.7rem;
-		letter-spacing: 0.03em;
-		line-height: 1.5;
-	}
-
-	.block-links {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.8rem;
-		padding-top: 0.5rem;
-	}
-	.block-links a {
-		color: var(--electric);
-		font-size: 0.88rem;
-		font-weight: 700;
-		text-decoration: none;
-	}
-	.block-links a:hover { color: var(--electric-soft); }
-
-	/* ===== 阅读导航 ===== */
-	.nav-grid { display: grid; gap: 0.6rem; }
-	.nav-item {
-		display: grid;
-		grid-template-columns: 1.2rem 10rem 1fr;
-		gap: 0.6rem;
-		align-items: baseline;
-		padding: 0.55rem 0.7rem;
-		border: 1px solid transparent;
-		border-radius: 6px;
-		color: var(--text-primary);
-		text-decoration: none;
-		transition: all 180ms ease;
-	}
-	.nav-item:hover {
-		border-color: var(--glass-border);
-		background: rgba(76,201,240,0.04);
-	}
-	.nav-icon { color: var(--electric); font-size: 0.75rem; }
-	.nav-label { font-weight: 700; font-size: 0.92rem; color: var(--text-bright); }
-	.nav-item small { color: var(--text-muted); font-size: 0.82rem; }
-
-	/* ===== 方法卡片 ===== */
-	.method-grid {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1rem;
-		padding-top: 0.4rem;
-	}
-	.method-item h3 {
-		font-size: 1rem;
-		margin-bottom: 0.4rem;
-		color: var(--electric-soft);
-		font-family: "Courier New", "Consolas", monospace;
-		letter-spacing: 0.04em;
-	}
-	.method-item p { color: var(--text-secondary); font-size: 0.88rem; margin: 0; }
-
-	.back-note {
-		padding-top: 2rem;
-		text-align: center;
-		color: var(--text-muted);
-		font-size: 0.92rem;
-	}
-	.back-note a { color: var(--electric); }
-
-	@media (max-width: 760px) {
-		.page-main { padding-top: 2rem; }
-		.page-hero h1 { font-size: 2.6rem; }
-		.dual-column { grid-template-columns: 1fr; }
-		.method-grid { grid-template-columns: 1fr; }
-		.nav-item { grid-template-columns: 1.2rem 1fr; }
-		.nav-item small { display: none; }
-	}
-</style>

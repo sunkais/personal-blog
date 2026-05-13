@@ -1,137 +1,79 @@
 ---
-import { NEXUS_URL } from '../consts';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION } from '../consts';
 ---
 
-<!doctype html>
 <html lang="zh-CN">
 	<head>
-		<BaseHead title="关于我 | 松间笔记" description="打开这间数字书房的人——孙开松，数学硕士，关注偏微分方程、拟抛物方程与 AI 辅助学术写作。" />
+		<BaseHead title="About | SKS Research Lab" description={SITE_DESCRIPTION} />
+		<style>
+			.about-wrap {
+				display: grid;
+				grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.45fr);
+				gap: 1rem;
+				align-items: start;
+			}
+			.about-main,
+			.about-side {
+				padding: 1.4rem;
+			}
+			.about-main h1 {
+				font-size: 3.4rem;
+			}
+			.about-main p,
+			.about-side p {
+				color: var(--text-secondary);
+			}
+			.about-list {
+				display: grid;
+				gap: 0.65rem;
+				margin: 1.2rem 0 0;
+				padding: 0;
+				list-style: none;
+			}
+			.about-list li {
+				padding: 0.75rem 0;
+				border-bottom: 1px solid var(--glass-border-soft);
+				color: var(--text-muted);
+			}
+			@media (max-width: 820px) {
+				.about-wrap { grid-template-columns: 1fr; }
+				.about-main h1 { font-size: 2.55rem; }
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
-		<main class="about-main">
-			<section class="about-hero paper-card">
-				<p class="eyebrow">About</p>
-				<h1>打开这间书房的人</h1>
-			</section>
+		<main>
+			<section class="about-wrap">
+				<article class="about-main hud-card">
+					<p class="eyebrow">ABOUT NODE / LOW PROFILE</p>
+					<h1>About SKS</h1>
+					<p>
+						SKS，一个把 PDE、LaTeX、AI 工作流和个人网站混在一起的数学学习者。
+					</p>
+					<p>
+						这里更像一个半匿名研究终端，而不是正式履历页。公开内容只保留研究方向、笔记路线和一些项目实验：
+						拟抛物方程、奇异项、Galerkin 方法、变分法、Mountain Pass，以及把混乱材料整理成可复查记录的工具链。
+					</p>
+					<p>
+						如果某些页面显得有点抽象，那大概是因为它们正在尝试把证明路线拆成信号，把生活噪声降到低一点。
+					</p>
+				</article>
 
-			<section class="about-section">
-				<h2>我是谁</h2>
-				<p>
-					孙开松，数学硕士。关注偏微分方程、带奇异项的拟抛物方程、Galerkin 方法、变分法与 Sobolev 空间。
-				</p>
-				<p>
-					目前的生活主要绕着几件事转：写完硕士论文、整理数学和物理笔记、弄清楚 AI 工具在学术写作里能做什么和不能做什么、慢慢把个人网站和 Nexus 项目建起来，以及毕业。
-				</p>
-			</section>
-
-			<section class="about-section">
-				<h2>我正在整理什么</h2>
-				<p>
-					硕士论文——研究对象、证明细节、文献脉络、盲审意见和答辩材料。数学笔记——偏微分方程、Galerkin 方法、变分法和奇异项问题的学习记录，用自己能讲清楚的方式固定下来。物理直觉——不写严格物理论文，但把方程背后的物理来源和类比整理清楚。AI 工具工作流——Codex、Claude Code、GitHub Copilot 和 LaTeX 写作中的实际使用方式，踩过的坑和形成的习惯。个人网站与 Nexus——这间数字书房和它的延伸项目。
-				</p>
-			</section>
-
-			<section class="about-section">
-				<h2>为什么叫"松间笔记"</h2>
-				<p>
-					"松间"既来自名字里的"松"，也像一处安静的间隙——可以放下论文、代码、工具和日常。它不是教授主页，不是论文仓库，也不是技术教程站。就是一间数字书房：什么都可以放，什么都不需要装。
-				</p>
-			</section>
-
-			<section class="about-section">
-				<h2>这个网站会放什么</h2>
-				<p>
-					数学笔记、物理直觉、AI 手札、论文书桌、项目记录和生活碎片。不追求更新频率，也不追求"有用"。更像一本慢慢翻开的笔记本——有些页面已经写了一些字，有些还在等待。
-				</p>
-			</section>
-
-			<section class="about-section">
-				<h2>Nexus 和主站的关系</h2>
-				<p>
-					<a href="/">sunkais.com</a> 是个人主站和数字书房——放笔记、思考、记录和介绍。<a href={NEXUS_URL} target="_blank" rel="noreferrer">nexus.sunkais.com</a> 是具体项目和作品展示平台——放小工具、同学作品、应用和更具体的东西。两者互补：一个是书房，一个是展示台。
-				</p>
-			</section>
-
-			<section class="about-section">
-				<h2>联系与不联系</h2>
-				<p>
-					目前这间书房不设评论区或联系表单。它更像一个安静的个人空间。如果有学术问题或项目想法想讨论，可以在 GitHub 上找到我，或者在其他合适的地方偶遇。
-				</p>
+				<aside class="about-side hud-card">
+					<p class="eyebrow">PROFILE SIGNAL</p>
+					<ul class="about-list">
+						<li><strong>CODE</strong><br />SKS</li>
+						<li><strong>FIELD</strong><br />PDE / Singular Weights / Variational Methods</li>
+						<li><strong>TOOLS</strong><br />LaTeX / AI Workflow / Static Web</li>
+						<li><strong>ACCESS</strong><br />公开笔记，不公开正式材料</li>
+					</ul>
+				</aside>
 			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
-<style>
-	.about-main {
-		width: min(820px, calc(100% - 2rem));
-	}
-
-	.about-hero {
-		padding: 2rem;
-		margin-bottom: 2.5rem;
-	}
-
-	.about-hero h1 {
-		font-family: Georgia, "Times New Roman", serif;
-		font-size: 3.5rem;
-		margin: 0;
-	}
-
-	.about-section {
-		padding: 1.5rem 0;
-		border-bottom: 1px solid var(--line-soft);
-	}
-
-	.about-section:last-of-type {
-		border-bottom: none;
-	}
-
-	.about-section h2 {
-		font-size: 1.22rem;
-		margin-bottom: 0.7rem;
-		color: var(--leaf-dark);
-	}
-
-	.about-section p {
-		max-width: 42rem;
-		color: var(--muted);
-		font-size: 1rem;
-		line-height: 1.8;
-		margin: 0 0 0.6rem;
-	}
-
-	.about-section p:last-child {
-		margin-bottom: 0;
-	}
-
-	.about-section a {
-		color: var(--leaf-dark);
-	}
-
-	@media (max-width: 720px) {
-		.about-main {
-			width: min(100% - 1.25rem, 820px);
-		}
-
-		.about-hero {
-			padding: 1.25rem;
-		}
-
-		.about-hero h1 {
-			font-size: 2.4rem;
-		}
-
-		.about-section {
-			padding: 1.25rem 0;
-		}
-
-		.about-section h2 {
-			font-size: 1.15rem;
-		}
-	}
-</style>

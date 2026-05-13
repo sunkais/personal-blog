@@ -1,168 +1,84 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
+import Formula from '../components/Formula.astro';
 import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION } from '../consts';
+
+const topics = [
+	['PDE_CORE', '偏微分方程', '拟抛物结构、扩散项、边界条件和弱解框架，是研究档案的基础信号。'],
+	['GALERKIN', 'Galerkin 方法', '用特征函数空间近似无限维问题，再通过一致估计和紧性工具取极限。'],
+	['VARIATION', '变分法', '把稳态方程转换成能量泛函的临界点问题，观察山口几何。'],
+	['SOBOLEV', 'Sobolev 空间', '控制梯度、边界条件和嵌入定理，让非线性项留在可估计范围内。'],
+	['WEIGHT', '奇异权', '靠近原点时权重增强，证明需要处理可积性、截断和加权估计。'],
+	['NUMERIC', '数值直观', '图像只提供直觉，不替代严格证明。'],
+];
+
+const energyFunctional = String.raw`J(u)=\frac12\|\nabla u\|_2^2
+-\frac1p\int_\Omega |x|^{-s_2}|u|^p\,dx.`;
 ---
 
-<!doctype html>
 <html lang="zh-CN">
 	<head>
-		<BaseHead title="数学一隅 | 松间笔记" description="偏微分方程、Galerkin 方法、变分法、Sobolev 空间和奇异项问题的学习笔记。" />
+		<BaseHead title="Formula Lab | SKS Research Lab" description={SITE_DESCRIPTION} />
+		<style>
+			.page-hero {
+				margin-bottom: 2rem;
+				padding: 1.5rem;
+			}
+			.page-hero h1 { font-size: 3.4rem; }
+			.page-hero p { max-width: 48rem; color: var(--text-secondary); }
+			.topic-grid {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 1rem;
+			}
+			.topic-card {
+				min-height: 12rem;
+				padding: 1.15rem;
+			}
+			.topic-card p { color: var(--text-muted); }
+			.quick-core { margin-top: 2rem; padding: 1.25rem; }
+			@media (max-width: 860px) {
+				.topic-grid { grid-template-columns: 1fr; }
+				.page-hero h1 { font-size: 2.55rem; }
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
-		<main class="page-main">
-			<section class="page-hero paper-card">
-				<p class="eyebrow">Mathematics</p>
-				<h1>数学一隅</h1>
-				<p class="page-lead">
-					这里整理偏微分方程、Galerkin 方法、变分法、Sobolev 空间和奇异项问题的学习笔记。不是为了写一本教材，而是为了把反复使用的东西，用自己能讲清楚的方式固定下来。
+		<main>
+			<section class="page-hero hud-card">
+				<p class="eyebrow">FORMULA LAB / 数学信号室</p>
+				<h1>Formula Lab</h1>
+				<p>
+					这里整理 PDE、Galerkin、Sobolev、变分法和奇异权的基础笔记。
+					目标不是把材料堆满，而是把常用工具压缩成能重新读懂的研究信号。
 				</p>
 			</section>
 
-			<section class="topic-grid">
-				<article class="topic-card paper-card">
-					<h2>偏微分方程</h2>
-					<p>
-						记录热方程、波方程、拟抛物方程等基础模型与研究对象。从经典的三类方程出发，理解抛物型、双曲型和拟抛物型各自的结构特征、适定性和能量方法。
-					</p>
-					<p>
-						抛物型（如热方程）主导扩散和平滑化；双曲型（如波方程）主导传播和振动；拟抛物型则介于两者之间——演化项中混入空间导数的耦合，赋予它一种非标准的记忆结构。我的论文正是围绕这类方程的适定性展开。
-					</p>
-				</article>
-
-				<article class="topic-card paper-card">
-					<h2>Galerkin 方法</h2>
-					<p>
-						核心思路：将无穷维 PDE 投影到有限维空间——选取 Laplace 特征函数为正交基，构造近似解序列，建立与维数无关的先验估计，再通过弱收敛和紧性工具取极限。
-					</p>
-					<p>
-						两个关键点：估计常数不能随近似空间维数增长（否则极限过程失效）；紧性工具（Rellich&ndash;Kondrachov 紧嵌入、Aubin&ndash;Lions 引理）保证了从弱收敛中提取强收敛以传递非线性项。
-					</p>
-					<p>
-						双奇异权情形下，Galerkin 框架还需要与奇异系数截断配合：先截断消除原点奇性，再在截断问题上构造 Galerkin 近似，最后通过双极限回到原问题。详见笔记集合中的 <a href="/blog/galerkin-method-notes/">Galerkin 方法学习笔记</a> 和 <a href="/blog/local-solution-proof/">局部解证明路线</a>。
-					</p>
-				</article>
-
-				<article class="topic-card paper-card">
-					<h2>变分法</h2>
-					<p>
-						将稳态方程的解重新表述为能量泛函的临界点。山路定理（Mountain Pass Theorem）是证明非平凡解存在的核心工具——它不显式构造解，而是利用能量泛函的几何结构和紧性条件（Palais&ndash;Smale 条件）保证临界点的存在。
-					</p>
-					<p>
-						Nehari 流形方法提供另一条路线：在满足自然约束的流形上极小化能量泛函。两条路线互补——Mountain Pass 从路径几何出发，Nehari 从约束优化出发。详见 <a href="/blog/mountain-pass-steady-state/">稳态解的 Mountain Pass 方法</a>。
-					</p>
-				</article>
-
-				<article class="topic-card paper-card">
-					<h2>Sobolev 与加权不等式</h2>
-					<p>
-						记录 Sobolev 嵌入、Rellich&ndash;Kondrachov 紧嵌入、Hardy&ndash;Sobolev 不等式和权重项处理。这些不等式是把 PDE 的弱形式、能量估计和紧性论证串起来的基本骨架。
-					</p>
-					<p>
-						关键事实：在有界光滑区域上，<strong>次临界 Sobolev 嵌入是紧的</strong>——这是变分法中验证 PS 条件的核心。当奇异权重加入后，标准嵌入不再直接适用，需要借助 Hardy&ndash;Sobolev 型不等式重新建立加权框架下的紧嵌入。
-					</p>
-				</article>
-
-				<article class="topic-card paper-card">
-					<h2>奇异项与参数条件</h2>
-					<p>
-						奇异权重 |x|<sup>&minus;s</sup> 不是单纯的扰动：它改变解的尺度行为、能量可积性和紧嵌入有效范围。论文研究的方程包含两个独立奇异权——一个作用于演化项，一个作用于源项。
-					</p>
-					<p>
-						参数条件的上下界分别来自两个核心估计：上界由 Hardy&ndash;Sobolev 梯度指数约束给出，下界由非线性差估计的压缩映射指数约束给出。两者在"能否被梯度范数统一控制"这一点汇合。详细推导见 <a href="/blog/double-singular-pseudo-parabolic/">双奇异权研究框架</a>。
-					</p>
-				</article>
+			<section class="topic-grid" aria-label="数学主题">
+				{topics.map(([code, title, text]) => (
+					<article class="topic-card hud-card">
+						<span class="meta-code">{code}</span>
+						<h2>{title}</h2>
+						<p>{text}</p>
+					</article>
+				))}
 			</section>
 
-			<section class="back-note">
-				<p>这些笔记会持续更新。更具体的文章见 <a href="/blog">笔记集合</a>。论文各章的详细参考资料已整理在 <a href="/thesis">论文书桌</a>。</p>
+			<section class="quick-core hud-card">
+				<p class="eyebrow">QUICK CORE</p>
+				<h2>一个常用能量泛函</h2>
+				<div class="formula-panel">
+					<Formula math={energyFunctional} displayMode={true} />
+				</div>
+				<div class="button-row">
+					<a class="button primary" href="/blog/mountain-pass-steady-state/">打开 Mountain Pass 笔记</a>
+					<a class="button" href="/thesis#equation-core">查看主方程</a>
+				</div>
 			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
-<style>
-	.page-main {
-		padding-top: 4rem;
-	}
-
-	.page-hero {
-		padding: 2rem;
-		margin-bottom: 2.5rem;
-	}
-
-	.page-hero h1 {
-		font-family: Georgia, "Times New Roman", serif;
-		font-size: 3.5rem;
-		margin-bottom: 1rem;
-	}
-
-	.page-lead {
-		max-width: 42rem;
-		color: var(--muted);
-		font-size: 1.08rem;
-		line-height: 1.7;
-		margin-bottom: 0;
-	}
-
-	.topic-grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1.25rem;
-	}
-
-	.topic-card {
-		padding: 1.5rem;
-	}
-
-	.topic-card h2 {
-		font-size: 1.25rem;
-		margin-bottom: 0.8rem;
-		color: var(--leaf-dark);
-	}
-
-	.topic-card p {
-		margin-bottom: 0.6rem;
-		color: var(--muted);
-		font-size: 0.96rem;
-		line-height: 1.7;
-	}
-
-	.topic-card p:last-child {
-		margin-bottom: 0;
-	}
-
-	.topic-card a {
-		color: var(--leaf-dark);
-	}
-
-	.back-note {
-		padding-top: 3rem;
-		text-align: center;
-		color: var(--soft-muted);
-		font-size: 0.94rem;
-	}
-
-	.back-note a {
-		color: var(--leaf-dark);
-	}
-
-	@media (max-width: 760px) {
-		.page-main {
-			padding-top: 2rem;
-		}
-
-		.page-hero {
-			padding: 1.25rem;
-		}
-
-		.page-hero h1 {
-			font-size: 2.6rem;
-		}
-
-		.topic-grid {
-			grid-template-columns: 1fr;
-		}
-	}
-</style>

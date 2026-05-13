@@ -1,22 +1,23 @@
 ---
-import { NEXUS_URL } from '../consts';
+import { NEXUS_URL, SITE_NAME_CN, SITE_NAME_EN } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
 <header class="site-header">
 	<nav>
 		<a class="brand" href="/" aria-label="回到首页">
-			<span class="brand-cn">SKS Research Terminal</span>
-			<span class="brand-en">孙开松 · 电磁研究档案</span>
+			<span class="brand-cn">{SITE_NAME_EN}</span>
+			<span class="brand-en">{SITE_NAME_CN} · Research Node</span>
 		</a>
 		<div class="internal-links">
-			<HeaderLink href="/">首页</HeaderLink>
-			<HeaderLink href="/thesis">论文档案</HeaderLink>
-			<HeaderLink href="/blog">研究笔记</HeaderLink>
-			<HeaderLink href="/math">数学</HeaderLink>
+			<HeaderLink href="/">Lab</HeaderLink>
+			<HeaderLink href="/thesis">Archive</HeaderLink>
+			<HeaderLink href="/blog">Notes</HeaderLink>
+			<HeaderLink href="/math">Formula</HeaderLink>
+			<HeaderLink href="/ai">Workflow</HeaderLink>
 			<HeaderLink href="/projects">项目</HeaderLink>
-			<HeaderLink href="/about">档案</HeaderLink>
-			<a href={NEXUS_URL} target="_blank" rel="noreferrer" class="nexus-link">Nexus ↗</a>
+			<HeaderLink href="/about">关于</HeaderLink>
+			<a href={NEXUS_URL} target="_blank" rel="noreferrer" class="nexus-link">Nexus / 小屋 ↗</a>
 		</div>
 	</nav>
 </header>

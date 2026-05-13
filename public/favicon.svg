@@ -1,6 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="松间笔记">
-	<rect width="128" height="128" rx="24" fill="#faf7ef" />
-	<path d="M30 28h51c9 0 17 8 17 17v55H47c-9 0-17-8-17-17V28Z" fill="#fffdf7" stroke="#6d8064" stroke-width="6" />
-	<path d="M48 48h32M48 64h26M48 80h18" stroke="#8a6f52" stroke-width="6" stroke-linecap="round" />
-	<path d="M90 30c-8 4-14 10-17 18 10 0 18-6 23-16-2-1-4-2-6-2Z" fill="#6d8064" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="SKS Research Lab">
+	<rect width="128" height="128" rx="22" fill="#050b16" />
+	<path d="M18 64h28l10-26 17 52 10-26h27" fill="none" stroke="#80edff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+	<path d="M26 28h76v72H26z" fill="none" stroke="#4cc9f0" stroke-width="3" opacity=".55" />
+	<path d="M36 42h18M74 86h18M72 42h20M36 86h20" stroke="#a78bfa" stroke-width="4" stroke-linecap="round" />
+	<circle cx="64" cy="64" r="9" fill="#f8fafc" />
+	<circle cx="64" cy="64" r="20" fill="none" stroke="#7dd3fc" stroke-width="2" opacity=".45" />
 </svg>
